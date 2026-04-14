@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0b0b12">
+<title>Elden Ring Death Tracker</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0b12;--sf:#14141f;--sf2:#1e1e2f;--gold:#c8a951;--gd:#a08030;--gl:#e8d48b;--blood:#8b2500;--bl:#c43c1c;--txt:#e0d8c8;--td:#8a8070;--tm:#5a5550;--ok:#3a7a3a;--brd:#2a2a3a;--fd:'Cinzel','Times New Roman',serif;--fb:'Segoe UI',system-ui,-apple-system,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);overflow:hidden;font-family:var(--fb);color:var(--txt)}
+input,select,textarea{font-size:16px!important}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--brd);border-radius:2px}
+input::placeholder{color:var(--tm)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(0.92)}}
+#app{background:var(--bg);height:100vh;display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:relative;overflow:hidden}
+header{text-align:center;padding:14px 16px 8px;background:linear-gradient(180deg,var(--sf) 0%,var(--bg) 100%);border-bottom:1px solid var(--brd);flex-shrink:0}
+main{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:8px}
+.tc{padding:16px;animation:fadeIn .3s ease}.empty{text-align:center;padding:60px 20px}
+.lbl{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--tm);margin-bottom:6px}
+.bg{padding:12px 24px;background:linear-gradient(135deg,var(--gd),var(--gold));color:var(--bg);border:none;border-radius:8px;font-family:var(--fd);font-size:13px;cursor:pointer;font-weight:600;letter-spacing:1px}
+.bg:disabled{opacity:.4}.bs{padding:4px 10px;background:transparent;border:1px solid var(--brd);border-radius:6px;color:var(--td);font-size:11px;cursor:pointer}.bs.dg{border-color:var(--blood);color:var(--bl)}
+.chip{padding:6px 12px;background:var(--sf2);border:1px solid var(--brd);border-radius:20px;color:var(--td);font-size:12px;cursor:pointer}
+.inp{width:100%;padding:12px 14px;background:var(--sf);border:1px solid var(--brd);border-radius:10px;color:var(--txt);font-size:16px;margin-bottom:10px;outline:none;font-family:var(--fb)}
+.run-bar{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--sf);border-radius:10px;margin-bottom:14px;border:1px solid var(--brd);flex-wrap:wrap;gap:6px}
+.boss-btn{width:100%;padding:14px 16px;background:var(--sf);border:1px solid var(--brd);border-radius:10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--txt)}
+.sr{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.sb{background:var(--sf);border-radius:10px;padding:14px;text-align:center;border:1px solid var(--brd)}
+.sl{font-size:11px;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.sv{font-family:var(--fd);font-size:28px;color:var(--gold);font-weight:700}
+.death-btn{width:100%;padding:28px 20px;border:2px solid var(--blood);border-radius:16px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;color:#fff;transition:transform .15s,box-shadow .15s;margin-bottom:10px;user-select:none;-webkit-user-select:none;background:radial-gradient(circle,var(--blood) 0%,#3a0d00 70%,var(--sf) 100%);box-shadow:0 0 30px rgba(139,37,0,.3)}
+.death-btn.flash{animation:pulse .4s ease;background:radial-gradient(circle,var(--bl) 0%,var(--blood) 60%,#2a0a00 100%)!important;box-shadow:0 0 60px rgba(196,60,28,.4)!important}
+.kill-btn{width:100%;padding:14px 20px;background:linear-gradient(135deg,var(--ok),#2a8a2a);border:none;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;color:#fff;font-family:var(--fd);font-size:15px;letter-spacing:1px;margin-bottom:12px}
+.undo-btn{width:100%;padding:10px;background:transparent;border:1px solid var(--brd);border-radius:8px;color:var(--tm);font-size:12px;cursor:pointer;margin-bottom:14px}
+.kb{background:rgba(58,122,58,.08);border:1px solid rgba(58,122,58,.25);border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+.ss{margin-top:8px;padding:14px;background:var(--sf);border-radius:10px;border:1px solid var(--brd)}
+.srow{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(42,42,58,.12)}
+.stit{font-family:var(--fd);color:var(--gold);font-size:16px;letter-spacing:2px;margin-bottom:16px}
+.hc{background:var(--sf);border:1px solid var(--brd);border-radius:10px;padding:14px;margin-bottom:10px}.hc.act{border-color:var(--gold)}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sc{background:var(--sf);border-radius:10px;padding:14px;text-align:center;border:1px solid var(--brd)}
+.scl{font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.scv{font-family:var(--fd);font-size:24px;color:var(--gold);font-weight:700}
+.rr{display:flex;justify-content:space-between;align-items:center;padding:8px 4px;border-bottom:1px solid rgba(42,42,58,.12)}
+nav{display:flex;border-top:1px solid var(--brd);background:var(--sf);flex-shrink:0;padding-bottom:env(safe-area-inset-bottom,8px)}
+nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 0 6px;background:transparent;border:none;cursor:pointer;font-family:var(--fb);color:var(--tm);border-top:2px solid transparent}
+nav button.on{color:var(--gold);border-top-color:var(--gold)}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:flex-end;justify-content:center;z-index:1000;animation:fadeIn .2s ease}
+.mdl{background:var(--bg);border-radius:16px 16px 0 0;width:100%;max-width:480px;max-height:85vh;padding:16px;border:1px solid var(--brd);border-bottom:none;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.mt{font-family:var(--fd);color:var(--gold);font-size:16px}
+.cb{background:transparent;border:none;color:var(--tm);font-size:18px;cursor:pointer;padding:4px 8px}
+.zh{font-family:var(--fd);font-size:11px;color:var(--gd);letter-spacing:2px;text-transform:uppercase;padding:10px 4px 4px;border-bottom:1px solid rgba(42,42,58,.19);margin-bottom:4px}
+.bli{width:100%;display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:transparent;border:1px solid var(--brd);border-radius:8px;cursor:pointer;margin-bottom:4px;color:var(--txt)}
+.ctabs{display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap}
+.ctab{padding:6px 10px;border-radius:20px;border:1px solid var(--brd);background:transparent;color:var(--td);font-size:11px;cursor:pointer;white-space:nowrap;font-family:var(--fb)}
+.ctab.on{background:rgba(200,169,81,.12);border-color:var(--gold);color:var(--gold)}
+.wpdd{position:absolute;left:0;right:0;top:100%;background:var(--sf);border:1px solid var(--brd);border-radius:8px;max-height:120px;overflow-y:auto;z-index:10}
+.wpdd button{width:100%;padding:8px 12px;background:transparent;border:none;border-bottom:1px solid rgba(42,42,58,.19);color:var(--txt);font-size:13px;text-align:left;cursor:pointer}
+.timer-bar{display:flex;align-items:center;justify-content:center;gap:10px;padding:8px;margin-bottom:14px;background:var(--sf);border-radius:10px;border:1px solid var(--brd)}
+.timer-d{font-family:var(--fd);font-size:22px;color:var(--gold);letter-spacing:2px;min-width:90px;text-align:center}
+.timer-b{width:32px;height:32px;border-radius:50%;border:1px solid var(--brd);background:transparent;color:var(--td);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.timer-b.on{border-color:var(--ok);color:#6fd06f}
+.phase-row{display:flex;gap:8px;margin-bottom:6px}
+.phase-btn{flex:1;padding:16px 10px;border:2px solid var(--blood);border-radius:14px;background:radial-gradient(circle,var(--blood) 0%,#3a0d00 70%,var(--sf) 100%);color:#fff;cursor:pointer;text-align:center;user-select:none;-webkit-user-select:none;transition:transform .15s,box-shadow .15s;box-shadow:0 0 20px rgba(139,37,0,.2)}
+.phase-btn.flash{animation:pulse .4s ease;background:radial-gradient(circle,var(--bl) 0%,var(--blood) 60%,#2a0a00 100%)!important;box-shadow:0 0 50px rgba(196,60,28,.4)!important}
+.zp{margin-bottom:8px}.zp-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.zp-n{font-size:11px;color:var(--td);font-family:var(--fd);letter-spacing:1px}.zp-c{font-size:11px;color:var(--gold);font-family:var(--fd)}
+.zp-bar{height:6px;background:var(--sf2);border-radius:3px;overflow:hidden}.zp-fill{height:100%;border-radius:3px;transition:width .3s}
+</style>
+</head>
+<body>
+<div id="app"><div style="display:flex;align-items:center;justify-content:center;height:100vh"><div style="text-align:center"><div style="font-size:48px;margin-bottom:16px">⚔️</div><div style="font-family:var(--fd);color:var(--gold);font-size:18px">Chargement...</div></div></div></div>
+<script>
+const B=[
+{id:"b001",n:"Soldat de Godrick",z:"Nécrolimbe",c:"u"},
+{id:"b002",n:"Chevalier de l'Arbre Sentinelle",z:"Nécrolimbe",c:"u"},
+{id:"b003",n:"Dragon Volant Agheel",z:"Nécrolimbe",c:"u"},
+{id:"b012",n:"Chevalier Limier Darriwil",z:"Nécrolimbe",c:"u"},
+{id:"b016",n:"Margit, le Présage Déchu",z:"Nécrolimbe",c:"m",ph:2},
+{id:"b020",n:"Patches",z:"Nécrolimbe",c:"u"},
+{id:"b022",n:"Lion Gardien",z:"Château de Voilorage",c:"u"},
+{id:"b024",n:"Godrick le Greffé",z:"Château de Voilorage",c:"m",ph:2},
+{id:"b028",n:"Bâtard Écailleux",z:"Péninsule des Larmes",c:"u"},
+{id:"b032",n:"Léonine Bâtard",z:"Péninsule des Larmes",c:"u"},
+{id:"b034",n:"Miranda la Fleur Putréfiée",z:"Péninsule des Larmes",c:"u"},
+{id:"b037",n:"Adan, Voleur de Feu",z:"Liurnia",c:"u"},
+{id:"b045",n:"Loup Rouge de Radagon",z:"Liurnia",c:"m"},
+{id:"b047",n:"Rennala, Reine de la Pleine Lune",z:"Liurnia",c:"m",ph:2},
+{id:"b048",n:"Seigneur d'Albâtre",z:"Liurnia",c:"u"},
+{id:"b049",n:"Revenant Royal",z:"Liurnia",c:"u"},
+{id:"b050",n:"Chevalière Loretta Royale",z:"Liurnia",c:"u"},
+{id:"b051",n:"Bols, Chevalier de Caria",z:"Liurnia",c:"u"},
+{id:"b052",n:"Alecto, Meneuse de la Lame Noire",z:"Liurnia",c:"u"},
+{id:"b055",n:"Dragon Pierre-Scintillante Adula",z:"Liurnia",c:"u"},
+{id:"b056",n:"Dragon Pierre-Scintillante Smarag",z:"Liurnia",c:"u"},
+{id:"b064",n:"Magma Wyrm Makar",z:"Liurnia",c:"u"},
+{id:"b069",n:"Dragon Putréfié Ekzykes",z:"Caelid",c:"u"},
+{id:"b071",n:"Commandant O'Neil",z:"Caelid",c:"u"},
+{id:"b072",n:"Prêtresse Nox et Épéiste Nox",z:"Caelid",c:"u"},
+{id:"b074",n:"Radahn, Fléau des Étoiles",z:"Caelid",c:"m",ph:2},
+{id:"b076",n:"Duelliste Frénétique",z:"Caelid",c:"u"},
+{id:"b078",n:"Mage de Bataille Hugues",z:"Caelid",c:"u"},
+{id:"b081",n:"Chevalier Crucible & Bâtard Guerrier",z:"Caelid",c:"u"},
+{id:"b082",n:"Dragon Ancien Greyoll",z:"Dragontertre",c:"u"},
+{id:"b085",n:"Dragon Volant Greyll",z:"Dragontertre",c:"u"},
+{id:"b090",n:"Esprit d'Arbre Putréfié",z:"Dragontertre",c:"u"},
+{id:"b093",n:"Elemer de la Ronce",z:"Plateau d'Altus",c:"u"},
+{id:"b097",n:"Nécromancien Garris",z:"Plateau d'Altus",c:"u"},
+{id:"b101",n:"Godefroy le Greffé",z:"Plateau d'Altus",c:"u"},
+{id:"b102",n:"Reine Demi-Humaine Gilika",z:"Plateau d'Altus",c:"u"},
+{id:"b105",n:"Noble Sanguinaire",z:"Plateau d'Altus",c:"u"},
+{id:"b106",n:"Face-de-Ver",z:"Plateau d'Altus",c:"u"},
+{id:"b108",n:"Miranda & Tueur de Présages",z:"Plateau d'Altus",c:"u"},
+{id:"b111",n:"Dragon Ancien Lansseax",z:"Mont Gelmir",c:"u"},
+{id:"b112",n:"Parfumeuse Tricia & Bâtard Guerrier",z:"Mont Gelmir",c:"u"},
+{id:"b115",n:"Bête d'Étoile Filante Adulte",z:"Mont Gelmir",c:"u"},
+{id:"b116",n:"Apparenté de la Putréfaction",z:"Mont Gelmir",c:"u"},
+{id:"b117",n:"Reine Demi-Humaine Maggie",z:"Mont Gelmir",c:"u"},
+{id:"b118",n:"Vierges Abductrices (Duo)",z:"Mont Gelmir",c:"u"},
+{id:"b120",n:"Reine Demi-Humaine Margot",z:"Mont Gelmir",c:"u"},
+{id:"b121",n:"Rykard, Seigneur du Blasphème",z:"Mont Gelmir",c:"m",ph:2},
+{id:"b123",n:"Loup Rouge du Champion",z:"Mont Gelmir",c:"u"},
+{id:"b125",n:"Golem du Pont Divin",z:"Leyndell",c:"u"},
+{id:"b128",n:"Chevalier Crucible Ordovis (Duo)",z:"Leyndell",c:"u"},
+{id:"b129",n:"Jumeaux Déchus",z:"Leyndell",c:"u"},
+{id:"b130",n:"Morgott, le Roi du Présage",z:"Leyndell",c:"m",ph:2},
+{id:"b131",n:"Seigneur d'Onyx",z:"Leyndell",c:"u"},
+{id:"b133",n:"Godfrey, Premier Seigneur (Spectre)",z:"Leyndell",c:"m"},
+{id:"b140",n:"Larme Mimétique (Chemin Caché)",z:"Champs Consacrés",c:"u"},
+{id:"b142",n:"Astel, Étoiles des Ténèbres",z:"Champs Consacrés",c:"u"},
+{id:"b145",n:"Grand Wyrm Theodorix",z:"Champs Consacrés",c:"u"},
+{id:"b146",n:"Croisé Bâtard",z:"Champs Consacrés",c:"u"},
+{id:"b147",n:"Borealis, Brouillard Glacial",z:"Sommet des Géants",c:"u"},
+{id:"b150",n:"Géant de Feu",z:"Sommet des Géants",c:"m",ph:2},
+{id:"b151",n:"Commandant Niall",z:"Sommet des Géants",c:"u"},
+{id:"b152",n:"Vyke, Chevalier de la Table Ronde",z:"Sommet des Géants",c:"u"},
+{id:"b156",n:"Loretta, Chevalière de l'Haligtree",z:"Arbre Sacré",c:"u"},
+{id:"b157",n:"Malenia, Lame de Miquella",z:"Arbre Sacré",c:"m",ph:2},
+{id:"b158",n:"Esprit des Ancêtres",z:"Rivière Siofra",c:"u"},
+{id:"b159",n:"Larme Mimétique",z:"Rivière Siofra",c:"u"},
+{id:"b160",n:"Ancêtre Esprit Royal",z:"Rivière Siofra",c:"m"},
+{id:"b162",n:"Gargouilles Vaillantes (Duo)",z:"Rivière Siofra",c:"u"},
+{id:"b163",n:"Mogh, Seigneur du Sang",z:"Rivière Siofra",c:"m",ph:2},
+{id:"b164",n:"Champions de Fia",z:"Profondeurs",c:"u"},
+{id:"b165",n:"Chevalier Crucible Siluria",z:"Profondeurs",c:"u"},
+{id:"b166",n:"Lichdragon Fortissax",z:"Profondeurs",c:"m"},
+{id:"b170",n:"Astel, Fils de la Nuit",z:"Lac de Pourriture",c:"m"},
+{id:"b171",n:"Duo Godskin",z:"Farum Azula",c:"u"},
+{id:"b172",n:"Maliketh, la Lame Noire",z:"Farum Azula",c:"m",ph:2},
+{id:"b173",n:"Placidusax, Seigneur Dragon",z:"Farum Azula",c:"m",ph:2},
+{id:"b175",n:"Mohg, le Présage (Égouts)",z:"Capitale de Cendres",c:"u"},
+{id:"b176",n:"Sir Gideon Ofnir, le Tout-Savant",z:"Capitale de Cendres",c:"m"},
+{id:"b177",n:"Godfrey / Hoarah Loux, Guerrier",z:"Capitale de Cendres",c:"m",ph:2},
+{id:"b178",n:"Radagon du Titre d'Elden",z:"Capitale de Cendres",c:"m",ph:2},
+{id:"b179",n:"Bête d'Elden",z:"Capitale de Cendres",c:"m"},
+{id:"d001",n:"Chevalier du Gaol Noir",z:"DLC — Plaines des Tombes",c:"u"},
+{id:"d002",n:"Dragon de Flamme Spectrale",z:"DLC — Plaines des Tombes",c:"u"},
+{id:"d004",n:"Maître d'Épée Demi-Humain Onze",z:"DLC — Plaines des Tombes",c:"u"},
+{id:"d005",n:"Homme-Dragon Ancien",z:"DLC — Plaines des Tombes",c:"u"},
+{id:"d006",n:"Bête Divine Dansante (Belurat)",z:"DLC — Plaines des Tombes",c:"m",ph:2},
+{id:"d007",n:"Danseur de Ranah",z:"DLC — Plaines des Tombes",c:"u"},
+{id:"d008",n:"Chef des Sanguinaires",z:"DLC — Plaines des Tombes",c:"u"},
+{id:"d010",n:"Rakshasa",z:"DLC — Plaines des Tombes",c:"u"},
+{id:"d011",n:"Rellana, Chevalière des Lunes Jumelles",z:"DLC — Château Ensis",c:"m"},
+{id:"d012",n:"Lameuse Maudite Labirith",z:"DLC — Château Ensis",c:"u"},
+{id:"d013",n:"Reine Demi-Humaine Marigga",z:"DLC — Côte Céruléenne",c:"u"},
+{id:"d014",n:"Chevalier Putréfié",z:"DLC — Côte Céruléenne",c:"u"},
+{id:"d015",n:"Ralva, le Grand Ours Rouge",z:"DLC — Scadu Altus",c:"u"},
+{id:"d016",n:"Chevalier Noir Edredd",z:"DLC — Scadu Altus",c:"u"},
+{id:"d017",n:"Chevalier Noir Garrew",z:"DLC — Scadu Altus",c:"u"},
+{id:"d018",n:"Jori, Inquisiteur Ancien",z:"DLC — Scadu Altus",c:"u"},
+{id:"d019",n:"Midra, Seigneur de la Frénésie",z:"DLC — Scadu Altus",c:"m",ph:2},
+{id:"d020",n:"Metyr, Mère des Doigts",z:"DLC — Scadu Altus",c:"m",ph:2},
+{id:"d021",n:"Comte Ymir, Mère des Doigts",z:"DLC — Scadu Altus",c:"u"},
+{id:"d022",n:"Hippopotame Doré",z:"DLC — Donjon de l'Ombre",c:"m"},
+{id:"d023",n:"Avatar de l'Arbre des Ombres",z:"DLC — Donjon de l'Ombre",c:"u"},
+{id:"d024",n:"Commandant Gaius",z:"DLC — Donjon de l'Ombre",c:"m"},
+{id:"d025",n:"Messmer l'Empaleur",z:"DLC — Donjon de l'Ombre",c:"m",ph:2},
+{id:"d031",n:"Lamenter",z:"DLC — Pic des Javelots",c:"u"},
+{id:"d032",n:"Dragon Ancien Senessax",z:"DLC — Pic des Javelots",c:"u"},
+{id:"d033",n:"Bayle le Redoutable",z:"DLC — Pic des Javelots",c:"m",ph:2},
+{id:"d034",n:"Rugalea, le Grand Ours Rouge",z:"DLC — Terre de la Tour",c:"u"},
+{id:"d037",n:"Romina, Sainte du Bourgeon",z:"DLC — Terre de la Tour",c:"m"},
+{id:"d038",n:"Leda & Compagnons",z:"DLC — Enir Ilim",c:"m"},
+{id:"d039",n:"Radahn, Époux Promis de Miquella",z:"DLC — Enir Ilim",c:"m",ph:2}
+];
+
+const CAT={m:{l:"Majeurs",i:"\u{1F451}"},u:{l:"Uniques",i:"\u2694\uFE0F"}};
+const ZONES=[...new Set(B.map(b=>b.z))];
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+const gB=id=>{var b=B.find(x=>x.id===id);if(!b&&S&&S.customBosses)b=S.customBosses.find(x=>x.id===id);return b||null;};
+const bn=id=>{if(S&&S.customNames&&S.customNames[id])return S.customNames[id];const b=gB(id);return b?b.n:"Inconnu";};
+const ci=c=>CAT[c]?CAT[c].i:"";
+const fmt=ms=>{const s=Math.floor(ms/1000);const h=Math.floor(s/3600);const m=Math.floor((s%3600)/60);const sec=s%60;return h>0?h+":"+String(m).padStart(2,'0')+":"+String(sec).padStart(2,'0'):m+":"+String(sec).padStart(2,'0');};
+
+// IndexedDB
+const DB="elden-tracker-v7";
+function openDB(){return new Promise((ok,no)=>{const r=indexedDB.open(DB,1);r.onupgradeneeded=()=>r.result.createObjectStore("d");r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error);})}
+async function dbL(){try{const db=await openDB();return new Promise((ok,no)=>{const t=db.transaction("d","readonly");const s=t.objectStore("d");const r=s.get("s");r.onsuccess=()=>{const d=r.result;if(d){d.kills=d.kills||[];d.weapons=d.weapons||[];}ok(d||null);};r.onerror=()=>no(r.error);});}catch(e){return null;}}
+async function dbS(d){try{const db=await openDB();return new Promise((ok,no)=>{const t=db.transaction("d","readwrite");t.objectStore("d").put(d,"s");t.oncomplete=()=>ok();t.onerror=()=>no(t.error);});}catch(e){}}
+
+let S=null,tab="run",bSrch="",bCat="all",modal=null,saveT=null,timerIv=null,statSrch="",statOpen=false;
+const DEF={runs:[],deaths:[],kills:[],currentRunId:null,currentBossId:null,weapons:[],customNames:{},customBosses:[]};
+
+function save(){if(saveT)clearTimeout(saveT);saveT=setTimeout(()=>dbS(S),300);}
+function allBosses(){return B.concat(S&&S.customBosses?S.customBosses:[]);}
+function gRun(){return S?.runs.find(r=>r.id===S.currentRunId)||null;}
+function gBoss(){return S?allBosses().find(x=>x.id===S.currentBossId)||null:null;}
+function rD(rid){return S.deaths.filter(d=>d.runId===rid);}
+function rK(rid){return S.kills.filter(k=>k.runId===rid);}
+function bD(rid,bid){return S.deaths.filter(d=>d.runId===rid&&d.bossId===bid);}
+function bK(rid,bid){return S.kills.find(k=>k.runId===rid&&k.bossId===bid)||null;}
+function getTimerMs(){const r=gRun();if(!r)return 0;const base=r.timerElapsed||0;return r.timerRunning&&r.timerLastStart?base+(Date.now()-r.timerLastStart):base;}
+function toggleTimer(){const r=gRun();if(!r)return;if(r.timerRunning){r.timerElapsed=(r.timerElapsed||0)+(Date.now()-r.timerLastStart);r.timerRunning=false;r.timerLastStart=null;stopTI();}else{r.timerRunning=true;r.timerLastStart=Date.now();startTI();}save();updTimer();}
+function resetTimer(){const r=gRun();if(!r)return;r.timerElapsed=0;r.timerRunning=false;r.timerLastStart=null;stopTI();save();updTimer();}
+function startTI(){stopTI();timerIv=setInterval(updTimer,1000);}
+function stopTI(){if(timerIv){clearInterval(timerIv);timerIv=null;}}
+function updTimer(){const el=document.getElementById('tv');if(el)el.textContent=fmt(getTimerMs());const tb=document.getElementById('tt');if(tb){const r=gRun();if(r){tb.textContent=r.timerRunning?"\u23F8":"\u25B6";tb.className="timer-b"+(r.timerRunning?" on":"");}}}
+
+function addDeath(phase){
+  const run=gRun();if(!run)return;
+  S.deaths.push({id:uid(),runId:S.currentRunId,bossId:S.currentBossId,timestamp:new Date().toISOString(),phase:phase||null});
+  run.totalDeaths=(run.totalDeaths||0)+1;save();
+  // Targeted DOM updates only
+  const el1=document.getElementById('v-total');if(el1)el1.textContent=rD(run.id).length;
+  const boss=gBoss();
+  const el2=document.getElementById('v-boss');
+  if(el2){const bd=boss?bD(S.currentRunId,boss.id).length:0;el2.textContent=boss?bd:"\u2014";el2.style.color=bd>0?"var(--bl)":"var(--ok)";}
+  updPhase();
+  // Flash the button that was clicked
+  const btnId=phase?"pb"+phase:"death-main";
+  const btn=document.getElementById(btnId);
+  if(btn){btn.classList.add('flash');setTimeout(()=>btn.classList.remove('flash'),400);}
+}
+function undoDeath(){const r=gRun();if(!r)return;const rd=rD(S.currentRunId);if(!rd.length)return;const i=S.deaths.map(x=>x.runId).lastIndexOf(S.currentRunId);if(i!==-1){S.deaths.splice(i,1);r.totalDeaths=Math.max(0,(r.totalDeaths||1)-1);}save();render();}
+function createRun(name){const id=uid();S.runs.push({id,name,date:new Date().toISOString(),totalDeaths:0,timerElapsed:0,timerRunning:false,timerLastStart:null});S.currentRunId=id;S.currentBossId=null;modal=null;save();render();}
+function selRun(id){S.currentRunId=id;modal=null;tab="run";stopTI();const r=gRun();if(r?.timerRunning)startTI();save();render();}
+function selBoss(id){
+  // Reset boss timer when changing boss
+  const run=gRun();
+  if(run){run.timerElapsed=0;run.timerRunning=false;run.timerLastStart=null;stopTI();}
+  S.currentBossId=id;modal=null;bSrch="";bCat="all";save();render();
+}
+function resetRun(){const r=gRun();if(!r)return;S.deaths=S.deaths.filter(x=>x.runId!==S.currentRunId);S.kills=S.kills.filter(x=>x.runId!==S.currentRunId);r.totalDeaths=0;r.timerElapsed=0;r.timerRunning=false;r.timerLastStart=null;stopTI();modal=null;save();render();}
+function delRun(rid){S.runs=S.runs.filter(r=>r.id!==rid);S.deaths=S.deaths.filter(x=>x.runId!==rid);S.kills=S.kills.filter(x=>x.runId!==rid);if(S.currentRunId===rid){S.currentRunId=S.runs.length?S.runs[S.runs.length-1].id:null;stopTI();}modal=null;save();render();}
+function confirmKill(level,weapon){const run=gRun(),boss=gBoss();if(!run||!boss)return;S.kills=S.kills.filter(k=>!(k.runId===S.currentRunId&&k.bossId===S.currentBossId));const deaths=bD(S.currentRunId,S.currentBossId).length;
+S.kills.push({id:uid(),runId:S.currentRunId,bossId:S.currentBossId,level,weapon,deaths,firstTry:deaths===0,timestamp:new Date().toISOString()});if(weapon&&!S.weapons.includes(weapon))S.weapons.push(weapon);modal=null;save();render();}
+function unKill(){S.kills=S.kills.filter(k=>!(k.runId===S.currentRunId&&k.bossId===S.currentBossId));modal=null;save();render();}
+function exportJSON(){if(!S)return;const j=JSON.stringify(S,null,2);const a=document.createElement("a");a.href="data:text/plain;charset=utf-8,"+encodeURIComponent(j);a.download="elden-tracker-"+new Date().toISOString().slice(0,10)+".json";document.body.appendChild(a);a.click();document.body.removeChild(a);}
+function importJSON(f){const r=new FileReader();r.onload=e=>{try{const d=JSON.parse(e.target.result);if(d.runs&&d.deaths){d.kills=d.kills||[];d.weapons=d.weapons||[];S=d;S.runs.forEach(r=>{if(r.timerElapsed===undefined){r.timerElapsed=0;r.timerRunning=false;r.timerLastStart=null;}});save();render();}}catch{alert("Fichier invalide");}};r.readAsText(f);}
+function updPhase(){const el=document.getElementById('phase-info');if(!el)return;const boss=gBoss();if(!boss||!boss.ph)return;const deaths=bD(S.currentRunId,boss.id);const p1=deaths.filter(d=>d.phase===1||!d.phase).length;const p2=deaths.filter(d=>d.phase===2).length;const total=p1+p2;if(!total){el.innerHTML='';return;}const pct=Math.round((p1/total)*100);el.innerHTML='<div style="font-size:11px;color:var(--td);text-align:center;margin-bottom:10px">Phase 1: <span style="color:var(--bl)">'+p1+'</span> ('+pct+'%) \u00B7 Phase 2: <span style="color:var(--gold)">'+p2+'</span> ('+(100-pct)+'%)</div>';}
+
+function buildBossList(){
+var run=gRun();var rd=run?rD(run.id):[];var rk=run?rK(run.id):[];
+var ab=allBosses();
+var fB=ab.filter(function(b){return(bCat==="all"||b.c===bCat)&&bn(b.id).toLowerCase().includes(bSrch.toLowerCase());});
+var fZ=[...new Set(fB.map(function(b){return b.z;}))];
+var out='';
+fZ.forEach(function(z){
+out+='<div class="zh">'+esc(z)+'</div>';
+fB.filter(function(b){return b.z===z;}).forEach(function(b){
+var dc=rd.filter(function(d){return d.bossId===b.id;}).length;
+var killed=rk.some(function(k){return k.bossId===b.id;});
+var ft=rk.some(function(k){return k.bossId===b.id&&k.firstTry;});
+var sel=S.currentBossId===b.id;
+var name=bn(b.id);
+out+='<div style="display:flex;align-items:center;gap:4px;margin-bottom:4px"><button class="bli" style="flex:1;border-color:'+(sel?'var(--gold)':killed?'rgba(58,122,58,.37)':'var(--brd)')+';background:'+(sel?'rgba(200,169,81,.06)':killed?'rgba(58,122,58,.03)':'transparent')+'" onclick="selBoss(\''+b.id+'\')"><span style="color:'+(killed?'var(--ok)':'var(--txt)')+';font-size:13px;display:flex;align-items:center;gap:2px;flex:1;min-width:0"><span style="font-size:10px;margin-right:3px;flex-shrink:0">'+ci(b.c)+'</span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(name)+'</span>'+(b.ph?'<span style="font-size:8px;color:var(--tm);margin-left:2px">\u00D72</span>':'')+'</span><span style="display:flex;align-items:center;gap:4px;flex-shrink:0">'+(dc>0?'<span style="color:var(--bl);font-size:12px;font-family:var(--fd)">'+dc+'\uD83D\uDC80</span>':'')+(ft?'<span style="font-size:11px">\u2728</span>':killed?'<span style="color:var(--ok);font-size:11px">\u2705</span>':dc===0?'<span style="color:var(--tm);font-size:10px">\u2014</span>':'')+'</span></button><button onclick="modal={t:\'renameBoss\',bid:\''+b.id+'\',origName:\''+esc(b.n).replace(/'/g,"\\'")+'\',curName:\''+esc(name).replace(/'/g,"\\'")+'\' };renderModal()" style="background:none;border:none;color:var(--td);font-size:14px;padding:6px;cursor:pointer;flex-shrink:0">\u270F\uFE0F</button></div>';
+});});
+return out;
+}
+function updBossList(){var el=document.getElementById('boss-list');if(el)el.innerHTML=buildBossList();}
+function updBossCats(){
+var el=document.getElementById('boss-cats');if(!el)return;
+var ab=allBosses();var out='';
+["all","m","u"].forEach(function(k){
+var cnt=k==="all"?ab.filter(function(b){return bn(b.id).toLowerCase().includes(bSrch.toLowerCase());}).length:ab.filter(function(b){return b.c===k&&bn(b.id).toLowerCase().includes(bSrch.toLowerCase());}).length;
+out+='<button class="ctab'+(bCat===k?' on':'')+'" onclick="bCat=\''+k+'\';updBossCats();updBossList()">'+(k!=="all"?CAT[k].i+' ':'')+(k==="all"?"Tous":CAT[k].l)+' <span style="opacity:.5;margin-left:2px">'+cnt+'</span></button>';
+});
+el.innerHTML=out;
+}
+function addCustomBoss(name,zone,cat){
+if(!S.customBosses)S.customBosses=[];
+var id='x'+uid();
+S.customBosses.push({id:id,n:name,z:zone,c:cat});
+save();modal='boss';renderModal();
+}
+function renameBoss(bid,newName){
+if(!S.customNames)S.customNames={};
+S.customNames[bid]=newName;
+save();modal='boss';renderModal();
+}
+function buildKillList(){
+var run=gRun();if(!run)return'';
+var rk2=rK(run.id);
+var filtered=statSrch?rk2.filter(function(k){return bn(k.bossId).toLowerCase().includes(statSrch.toLowerCase());}):rk2;
+var sorted2=filtered.slice().sort(function(a,b){return(b.deaths||0)-(a.deaths||0);});
+var out='';
+if(!sorted2.length)return'<div style="text-align:center;color:var(--td);padding:12px">Aucun r\u00E9sultat</div>';
+sorted2.forEach(function(k){
+var bInfo=gB(k.bossId);if(!bInfo)return;
+out+='<div class="rr"><div style="display:flex;align-items:center;gap:4px;flex:1;min-width:0"><span style="font-size:10px;margin-right:3px">'+ci(bInfo.c)+'</span><span style="color:var(--txt);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(bn(k.bossId))+'</span>'+(k.firstTry?'<span style="color:var(--ok);font-size:9px;flex-shrink:0">\u2728</span>':'')+'</div><div style="display:flex;align-items:center;gap:6px;flex-shrink:0">'+(k.weapon?'<span style="color:var(--tm);font-size:10px;max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(k.weapon)+'</span>':'')+(k.level?'<span style="color:var(--td);font-size:10px">Niv.'+k.level+'</span>':'')+'<span style="font-family:var(--fd);color:'+(k.firstTry?'#6fd06f':'var(--bl)')+';font-size:13px">'+((k.deaths||0)===0?'\u2728':k.deaths+'\uD83D\uDC80')+'</span></div></div>';
+});
+return out;
+}
+function updKillList(){var el=document.getElementById('kill-list');if(el)el.innerHTML=buildKillList();}
+
+function render(){
+const app=document.getElementById("app");
+const run=gRun(),boss=gBoss();
+const rd=run?rD(run.id):[],rk=run?rK(run.id):[];
+const bd=boss?bD(S.currentRunId,boss.id).length:0;
+const bk=boss?bK(S.currentRunId,boss.id):null;
+let h='<header style="position:relative"><h1 style="font-family:var(--fd);font-size:20px;color:var(--gold);letter-spacing:6px;font-weight:700">ELDEN RING</h1><div style="font-family:var(--fd);font-size:9px;color:var(--tm);letter-spacing:3px;margin-top:2px">DEATH TRACKER \u2014 '+allBosses().length+' BOSS</div><button onclick="modal=\'settings\';render()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--td);font-size:20px;cursor:pointer;padding:6px">\u2699\uFE0F</button></header><main>';
+
+if(tab==="run"){
+h+='<div class="tc">';
+if(!run){
+h+='<div class="empty"><div style="font-size:64px;margin-bottom:20px">\u26B0\uFE0F</div><div style="font-family:var(--fd);color:var(--gold);font-size:18px;margin-bottom:12px">Aucune run active</div><div style="color:var(--td);margin-bottom:24px;font-size:14px">Cr\u00E9e ta premi\u00E8re run pour tracker tes morts</div><button class="bg" onclick="modal=\'newrun\';render()">+ Nouvelle Run</button></div>';
+}else{
+// Run bar
+h+='<div class="run-bar"><div style="display:flex;align-items:center;gap:8px"><span style="color:var(--gold);font-size:13px;font-family:var(--fd)">'+esc(run.name)+'</span><button class="bs" onclick="modal=\'runsel\';render()">Changer</button></div><div style="display:flex;gap:6px"><button class="bs" onclick="modal=\'newrun\';render()">+ Run</button><button class="bs dg" onclick="modal={t:\'confirm\',title:\'Reset la run ?\',msg:\'Supprimer morts et victoires de\',hl:\''+esc(run.name).replace(/'/g,"\\'")+'\',act:\'resetRun\'};render()">Reset</button></div></div>';
+// Boss
+h+='<div style="text-align:center;margin-bottom:14px"><div class="lbl">Boss actuel</div><button class="boss-btn" onclick="modal=\'boss\';render()">';
+if(boss){h+='<span style="color:var(--gl);font-family:var(--fd);font-size:15px;display:flex;align-items:center;gap:4px">'+ci(boss.c)+' '+esc(boss.n)+(bk?' \u2705':'')+'</span><span style="color:var(--tm);font-size:11px">'+esc(boss.z)+'</span>';}
+else h+='<span style="color:var(--td)">S\u00E9lectionner un boss \u25BE</span>';
+h+='</button></div>';
+// Kill banner
+if(bk){
+h+='<div class="kb"><div><div style="color:#6fd06f;font-size:12px;font-family:var(--fd)">'+(bk.firstTry?'\u2728 FIRST TRY':'\u2705 BOSS BATTU')+'</div><div style="color:var(--td);font-size:11px;margin-top:2px">';
+if(bk.level)h+='Niv. '+bk.level;if(bk.level&&bk.weapon)h+=' \u00B7 ';if(bk.weapon)h+=esc(bk.weapon);
+if(!bk.level&&!bk.weapon)h+=bk.deaths+' mort'+(bk.deaths!==1?'s':'');
+h+='</div></div><button class="bs dg" style="font-size:10px" onclick="modal={t:\'confirm\',title:\'Annuler la victoire ?\',msg:\'Retirer la victoire sur\',hl:\''+esc(boss.n).replace(/'/g,"\\'")+'\',act:\'unKill\'};render()">Retirer</button></div>';
+}
+// Stats
+h+='<div class="sr"><div class="sb"><div class="sl">Morts totales</div><div class="sv" id="v-total">'+rd.length+'</div></div><div class="sb"><div class="sl">Sur ce boss</div><div class="sv" id="v-boss" style="color:'+(bd>0?'var(--bl)':'var(--ok)') +'">'+(boss?bd:'\u2014')+'</div></div></div>';
+// Death buttons
+if(boss&&boss.ph&&!bk){
+// Multi-phase death buttons
+const deaths=bD(S.currentRunId,boss.id);
+const p1=deaths.filter(d=>d.phase===1||!d.phase).length;
+const p2=deaths.filter(d=>d.phase===2).length;
+const total=p1+p2;
+h+='<div class="phase-row"><button class="phase-btn" id="pb1" onclick="addDeath(1)"><div style="font-size:32px">\uD83D\uDC80</div><div style="font-family:var(--fd);font-size:16px;letter-spacing:1px;margin-top:4px">+1 MORT</div><div style="font-size:10px;color:var(--tm);margin-top:2px">Phase 1</div></button><button class="phase-btn" id="pb2" onclick="addDeath(2)"><div style="font-size:32px">\uD83D\uDC80</div><div style="font-family:var(--fd);font-size:16px;letter-spacing:1px;margin-top:4px">+1 MORT</div><div style="font-size:10px;color:var(--gold);margin-top:2px">Phase 2</div></button></div>';
+h+='<div id="phase-info">';
+if(total>0){const pct=Math.round((p1/total)*100);h+='<div style="font-size:11px;color:var(--td);text-align:center;margin-bottom:10px">Phase 1: <span style="color:var(--bl)">'+p1+'</span> ('+pct+'%) \u00B7 Phase 2: <span style="color:var(--gold)">'+p2+'</span> ('+(100-pct)+'%)</div>';}
+h+='</div>';
+}else{
+h+='<button class="death-btn" id="death-main" onclick="addDeath()"><span style="font-size:48px">\uD83D\uDC80</span><span style="font-family:var(--fd);font-size:22px;letter-spacing:2px">+1 MORT</span></button>';
+}
+if(boss&&!bk){
+h+='<div style="display:flex;gap:8px;margin-bottom:12px">';
+h+='<button class="kill-btn" style="flex:1" onclick="modal=\'kill\';render()"><span style="font-size:18px">\u2694\uFE0F</span> BOSS BATTU</button>';
+if(bd===0)h+='<button class="kill-btn" style="flex:1;background:linear-gradient(135deg,#2a6a8a,#1a9aaa)" onclick="confirmKill(null,null)"><span style="font-size:18px">\u2728</span> FIRST TRY</button>';
+h+='</div>';
+}
+if(rd.length>0)h+='<button class="undo-btn" onclick="undoDeath()">\u21A9 Annuler derni\u00E8re mort</button>';
+// Zone progress
+h+='<div class="ss" style="margin-bottom:14px"><div class="lbl" style="margin-bottom:10px">Progression par zone</div>';
+ZONES.forEach(function(z){
+const zB=B.filter(function(b){return b.z===z;});
+const killed=zB.filter(function(b){return rk.some(function(k){return k.bossId===b.id;});}).length;
+const pct=Math.round((killed/zB.length)*100);
+const col=pct===100?'var(--ok)':pct>50?'var(--gold)':'var(--bl)';
+h+='<div class="zp"><div class="zp-h"><span class="zp-n">'+esc(z)+'</span><span class="zp-c">'+killed+'/'+zB.length+'</span></div><div class="zp-bar"><div class="zp-fill" style="width:'+pct+'%;background:'+col+'"></div></div></div>';
+});
+h+='</div>';
+}
+h+='</div>';
+}
+
+if(tab==="history"){
+h+='<div class="tc"><div class="stit">Historique des Runs</div>';
+if(!S.runs.length)h+='<div class="empty"><div style="font-size:48px;margin-bottom:12px">\uD83D\uDCDC</div><div style="color:var(--td)">Aucune run</div></div>';
+else S.runs.slice().reverse().forEach(function(r){
+const rd2=rD(r.id),rk2=rK(r.id);
+const byBoss={};rd2.forEach(function(d){if(d.bossId)byBoss[d.bossId]=(byBoss[d.bossId]||0)+1;});
+const topE=Object.entries(byBoss).sort(function(a,b){return b[1]-a[1];});
+const top=topE[0]||null;const cur=r.id===S.currentRunId;
+const ft=rk2.filter(function(k){return k.firstTry;}).length;
+h+='<div class="hc'+(cur?' act':'')+'"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div><div style="font-family:var(--fd);color:'+(cur?'var(--gold)':'var(--txt)')+';font-size:15px">'+esc(r.name)+(cur?'<span style="font-size:10px;color:var(--gd);margin-left:8px">\u25CF ACTIVE</span>':'')+'</div><div style="color:var(--tm);font-size:11px;margin-top:4px">'+new Date(r.date).toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"})+'</div></div><div style="font-family:var(--fd);color:var(--bl);font-size:22px">'+rd2.length+' \uD83D\uDC80</div></div>';
+h+='<div style="display:flex;gap:12px;margin-top:8px;font-size:11px;color:var(--td)"><span>'+rk2.length+' boss battu'+(rk2.length>1?'s':'')+'</span>'+(ft>0?'<span style="color:var(--ok)">\u2728 '+ft+' first try</span>':'')+'</div>';
+if(top)h+='<div style="margin-top:4px;font-size:12px;color:var(--td)">Boss le + dur : <span style="color:var(--gl)">'+esc(bn(top[0]))+'</span> ('+top[1]+')</div>';
+h+='<div style="display:flex;gap:8px;margin-top:10px">'+(!cur?'<button class="bs" onclick="selRun(\''+r.id+'\')">Reprendre</button>':'')+'<button class="bs dg" onclick="modal={t:\'confirm\',title:\'Supprimer la run ?\',msg:\'Supprimer d\u00E9finitivement\',hl:\''+esc(r.name).replace(/'/g,"\\'")+'\',act:\'delRun\',rid:\''+r.id+'\'};render()">Supprimer</button></div></div>';
+});
+h+='<button class="bg" style="margin-top:16px" onclick="modal=\'newrun\';render()">+ Nouvelle Run</button></div>';
+}
+
+if(tab==="stats"){
+h+='<div class="tc"><div class="stit">Statistiques</div>';
+if(!S.deaths.length&&!S.kills.length)h+='<div class="empty"><div style="font-size:48px;margin-bottom:12px">\uD83D\uDCCA</div><div style="color:var(--td)">Pas encore de donn\u00E9es</div></div>';
+else{
+const run=gRun();
+const rd=run?rD(run.id):[];const rk=run?rK(run.id):[];
+const ftC=S.kills.filter(function(k){return k.firstTry;}).length;
+const kwD=S.deaths.filter(function(d){return d.bossId&&S.kills.some(function(k){return k.bossId===d.bossId&&k.runId===d.runId;});}).length;
+const avg=S.kills.length>0?(kwD/S.kills.length).toFixed(1):'\u2014';
+h+='<div class="sg"><div class="sc"><div class="scl">Morts totales</div><div class="scv">'+S.deaths.length+'</div></div><div class="sc"><div class="scl">Boss battus</div><div class="scv" style="color:var(--ok)">'+S.kills.length+'</div></div><div class="sc"><div class="scl">First Try</div><div class="scv" style="color:#6fd06f">'+ftC+' \u2728</div></div><div class="sc"><div class="scl">Moy. / Boss</div><div class="scv">'+avg+'</div></div></div>';
+// Phase stats
+const phD=S.deaths.filter(function(d){return d.phase;});
+if(phD.length>0){const p1=phD.filter(function(d){return d.phase===1;}).length;const p2=phD.filter(function(d){return d.phase===2;}).length;
+h+='<div class="stit" style="font-size:14px;margin-top:24px">Morts par Phase</div><div class="sr"><div class="sb"><div class="sl">Phase 1</div><div class="sv" style="color:var(--bl)">'+p1+'</div><div style="font-size:11px;color:var(--td)">'+Math.round(p1/(p1+p2)*100)+'%</div></div><div class="sb"><div class="sl">Phase 2</div><div class="sv" style="color:var(--gold)">'+p2+'</div><div style="font-size:11px;color:var(--td)">'+Math.round(p2/(p1+p2)*100)+'%</div></div></div>';
+}
+// Ranking (always visible, no search filter)
+const bbAll={};S.deaths.forEach(function(d){if(d.bossId)bbAll[d.bossId]=(bbAll[d.bossId]||0)+1;});
+const sorted=Object.entries(bbAll).sort(function(a,b){return b[1]-a[1];});
+if(sorted.length>0){const mx=sorted[0][1];
+h+='<div class="stit" style="font-size:14px;margin-top:24px">Classement des boss les plus difficiles</div>';
+sorted.slice(0,10).forEach(function(e,i){const id=e[0],cnt=e[1];
+const kill=S.kills.find(function(k){return k.bossId===id;});const pct=Math.round((cnt/mx)*100);
+h+='<div class="rr"><div style="display:flex;align-items:center;gap:4px;flex:1;min-width:0"><span style="font-family:var(--fd);color:'+(i<5?'var(--gold)':'var(--tm)')+';font-size:13px;width:24px;text-align:right;flex-shrink:0">'+(i===0?'\uD83D\uDC51':'#'+(i+1))+'</span><span style="font-size:10px;margin-right:3px">'+ci(gB(id)?.c)+'</span><span style="color:var(--txt);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(bn(id))+'</span>'+(kill?'<span style="color:var(--ok);font-size:9px;flex-shrink:0">'+(kill.firstTry?'\u2728':'\u2705')+'</span>':'')+'</div><div style="display:flex;align-items:center;gap:6px;flex-shrink:0"><div style="width:50px;height:6px;border-radius:3px;background:var(--sf2);overflow:hidden"><div style="height:100%;border-radius:3px;width:'+pct+'%;background:linear-gradient(90deg,var(--blood),var(--bl))"></div></div><span style="font-family:var(--fd);color:var(--bl);font-size:13px;width:28px;text-align:right">'+cnt+'</span></div></div>';
+});}
+// Boss battus (collapsible with search)
+if(rk.length>0){
+h+='<button onclick="statOpen=!statOpen;render()" style="width:100%;display:flex;justify-content:space-between;align-items:center;margin-top:24px;padding:0;background:none;border:none;cursor:pointer"><span class="stit" style="margin-bottom:0">Boss battus ('+rk.length+')</span><span style="color:var(--td);font-size:16px;transition:transform .2s;transform:rotate('+(statOpen?'180':'0')+'deg)">\u25BC</span></button>';
+if(statOpen||statSrch){
+h+='<input class="inp" id="statSrchInp" style="margin-top:12px" placeholder="Rechercher un boss battu..." value="'+esc(statSrch)+'" oninput="statSrch=this.value;updKillList()">';
+h+='<div id="kill-list">';
+h+=buildKillList();
+h+='</div>';
+}
+}
+}
+h+='</div>';
+}
+
+h+='</main><nav>';
+[{k:"run",i:"\u2694\uFE0F",l:"Run"},{k:"history",i:"\uD83D\uDCDC",l:"Historique"},{k:"stats",i:"\uD83D\uDCCA",l:"Stats"}].forEach(function(t){
+h+='<button class="'+(tab===t.k?'on':'')+'" onclick="tab=\''+t.k+'\';render()"><span style="font-size:20px">'+t.i+'</span><span style="font-size:10px;letter-spacing:1px">'+t.l+'</span></button>';
+});
+h+='</nav>';
+app.innerHTML=h;
+if(modal)renderModal();
+}
+
+function renderModal(){
+const app=document.getElementById("app");
+const run=gRun(),boss=gBoss();
+const rd=run?rD(run.id):[],rk=run?rK(run.id):[];
+let m='';
+if(modal==="boss"){
+m='<div class="ov" onclick="modal=null;bSrch=\'\';bCat=\'all\';render()"><div class="mdl" onclick="event.stopPropagation()"><div class="mh"><span class="mt">Boss ('+allBosses().length+')</span><button class="cb" onclick="modal=null;bSrch=\'\';bCat=\'all\';render()">\u2715</button></div>';
+m+='<input class="inp" id="bsi" placeholder="Rechercher un boss..." value="'+esc(bSrch)+'" oninput="bSrch=this.value;updBossList()">';
+m+='<div class="ctabs" id="boss-cats">';
+["all","m","u"].forEach(function(k){
+var ab=allBosses();var cnt=k==="all"?ab.filter(function(b){return bn(b.id).toLowerCase().includes(bSrch.toLowerCase());}).length:ab.filter(function(b){return b.c===k&&bn(b.id).toLowerCase().includes(bSrch.toLowerCase());}).length;
+m+='<button class="ctab'+(bCat===k?' on':'')+'" onclick="bCat=\''+k+'\';updBossCats();updBossList()">'+(k!=="all"?CAT[k].i+' ':'')+(k==="all"?"Tous":CAT[k].l)+' <span style="opacity:.5;margin-left:2px">'+cnt+'</span></button>';
+});
+m+='</div>';
+m+='<button class="bli" style="border-color:var(--gold);margin-bottom:8px" onclick="modal=\'addBoss\';renderModal()"><span style="color:var(--gold)">+ Ajouter un boss</span></button>';
+m+='<button class="bli" style="border-color:var(--blood);margin-bottom:8px" onclick="selBoss(null)"><span style="color:var(--td)">\u274C Mort libre (sans boss)</span></button>';
+m+='<div id="boss-list" style="max-height:48vh;overflow-y:auto;-webkit-overflow-scrolling:touch">'+buildBossList()+'</div>';
+m+='</div></div>';
+}else if(modal==="addBoss"){
+m='<div class="ov" onclick="modal=\'boss\';renderModal()"><div class="mdl" onclick="event.stopPropagation()"><div class="mh"><span class="mt">Ajouter un boss</span><button class="cb" onclick="modal=\'boss\';renderModal()">\u2715</button></div>';
+m+='<div style="margin-bottom:12px"><div style="font-size:11px;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Nom du boss</div><input class="inp" id="addBossName" placeholder="Ex: Mon boss custom"></div>';
+m+='<div style="margin-bottom:12px"><div style="font-size:11px;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Zone</div><input class="inp" id="addBossZone" placeholder="Ex: Necrolimbe"></div>';
+m+='<div style="margin-bottom:12px"><div style="font-size:11px;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Type</div><div style="display:flex;gap:8px"><button class="ctab on" id="addT-u" onclick="document.querySelectorAll(\'[id^=addT-]\').forEach(function(e){e.className=\'ctab\'});this.className=\'ctab on\'">\u2694\uFE0F Unique</button><button class="ctab" id="addT-m" onclick="document.querySelectorAll(\'[id^=addT-]\').forEach(function(e){e.className=\'ctab\'});this.className=\'ctab on\'">\uD83D\uDC51 Majeur</button></div></div>';
+m+='<button class="bg" style="width:100%" onclick="var n=document.getElementById(\'addBossName\').value.trim();var z=document.getElementById(\'addBossZone\').value.trim();if(!n){alert(\'Nom requis\');return;}var c=document.getElementById(\'addT-m\').className.includes(\'on\')?\'m\':\'u\';addCustomBoss(n,z||\'Autre\',c)">Ajouter</button>';
+m+='</div></div>';
+}else if(modal&&modal.t==="renameBoss"){
+m='<div class="ov" onclick="modal=\'boss\';renderModal()"><div class="mdl" onclick="event.stopPropagation()"><div class="mh"><span class="mt">Renommer</span><button class="cb" onclick="modal=\'boss\';renderModal()">\u2715</button></div>';
+m+='<div style="font-family:var(--fd);color:var(--gold);font-size:14px;margin-bottom:12px;text-align:center">'+esc(modal.origName)+'</div>';
+m+='<input class="inp" id="renameInp" placeholder="Nouveau nom..." value="'+esc(modal.curName)+'">';
+m+='<button class="bg" style="width:100%" onclick="var v=document.getElementById(\'renameInp\').value.trim();if(v)renameBoss(\''+modal.bid+'\',v)">Renommer</button>';
+m+='</div></div>';
+}else if(modal==="newrun"){
+const ps=["Run RL1","Run No Hit","Run All Boss","Run Speed","Run DLC","Casual Run"];
+m='<div class="ov" onclick="modal=null;render()"><div class="mdl" onclick="event.stopPropagation()"><div class="mh"><span class="mt">Nouvelle Run</span><button class="cb" onclick="modal=null;render()">\u2715</button></div><input class="inp" id="nri" placeholder="Nom de la run..." onkeydown="if(event.key===\'Enter\'&&this.value.trim())createRun(this.value.trim())"><div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px">'+ps.map(function(p){return'<button class="chip" onclick="document.getElementById(\'nri\').value=\''+p+'\'">'+p+'</button>';}).join('')+'</div><button class="bg" style="width:100%" onclick="var v=document.getElementById(\'nri\').value.trim();if(v)createRun(v)">Cr\u00E9er la run</button></div></div>';
+}else if(modal==="runsel"){
+m='<div class="ov" onclick="modal=null;render()"><div class="mdl" onclick="event.stopPropagation()"><div class="mh"><span class="mt">S\u00E9lectionner une run</span><button class="cb" onclick="modal=null;render()">\u2715</button></div>';
+if(!S.runs.length)m+='<div style="text-align:center;color:var(--td);padding:20px">Aucune run</div>';
+else S.runs.slice().reverse().forEach(function(r){const cur=r.id===S.currentRunId;m+='<button class="bli" style="border-color:'+(cur?'var(--gold)':'var(--brd)')+'" onclick="selRun(\''+r.id+'\')"><span style="color:'+(cur?'var(--gold)':'var(--txt)')+'">'+esc(r.name)+' '+(cur?'\u25CF':'')+'</span><span style="color:var(--tm);font-size:12px">'+(r.totalDeaths||0)+' \uD83D\uDC80</span></button>';});
+m+='</div></div>';
+}else if(modal==="kill"&&boss){
+const bd2=bD(S.currentRunId,boss.id).length;const ft=bd2===0;
+m='<div class="ov" onclick="modal=null;render()"><div class="mdl" onclick="event.stopPropagation()"><div class="mh"><span class="mt">Boss battu !</span><button class="cb" onclick="modal=null;render()">\u2715</button></div><div style="text-align:center;margin-bottom:16px">'+(ft?'<div style="font-size:32px;margin-bottom:8px">\u2728\uD83C\uDFC6\u2728</div>':'')+'<div style="font-family:var(--fd);color:var(--gold);font-size:15px;margin-bottom:4px">'+esc(boss.n)+'</div><div style="color:'+(ft?'var(--ok)':'var(--bl)')+';font-size:13px;font-family:var(--fd)">'+(ft?"FIRST TRY !":bd2+" mort"+(bd2>1?"s":"")+" avant la victoire")+'</div></div><div style="margin-bottom:12px"><div style="font-size:11px;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Niveau du personnage</div><input class="inp" id="kLvl" type="number" inputmode="numeric" placeholder="Ex: 75"></div><div style="margin-bottom:16px;position:relative"><div style="font-size:11px;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Arme utilis\u00E9e</div><input class="inp" id="kWpn" placeholder="Ex: \u00C9p\u00E9e lunaire de Caria" oninput="renderWpn(this.value)" onfocus="renderWpn(this.value)"><div id="wpdd"></div></div><button class="bg" style="width:100%" onclick="var l=document.getElementById(\'kLvl\').value;var w=document.getElementById(\'kWpn\').value.trim();confirmKill(l?parseInt(l):null,w||null)">'+(ft?'\u2728 Valider le First Try':'\u2694\uFE0F Valider la victoire')+'</button></div></div>';
+}else if(modal&&modal.t==="confirm"){
+m='<div class="ov" onclick="modal=null;render()"><div class="mdl" onclick="event.stopPropagation()"><div class="mh"><span class="mt">'+esc(modal.title)+'</span><button class="cb" onclick="modal=null;render()">\u2715</button></div><div style="text-align:center;padding:10px 0"><div style="color:var(--txt);margin-bottom:16px">'+esc(modal.msg)+(modal.hl?' <strong style="color:var(--gold)">'+esc(modal.hl)+'</strong>':'')+' ?</div><div style="display:flex;gap:10px;justify-content:center"><button class="bs" onclick="modal=null;render()">Annuler</button><button class="bg" style="background:var(--blood)" onclick="doConfirm()">Confirmer</button></div></div></div></div>';
+}else if(modal==="settings"){
+m='<div class="ov" onclick="modal=null;render()"><div class="mdl" onclick="event.stopPropagation()"><div class="mh"><span class="mt">\u2699\uFE0F Param\u00E8tres</span><button class="cb" onclick="modal=null;render()">\u2715</button></div>';
+m+='<button class="bli" style="margin-bottom:8px" onclick="modal=null;exportJSON()"><span style="font-size:16px;margin-right:8px">\uD83D\uDCE6</span> Exporter les donn\u00E9es (JSON)</button>';
+m+='<label class="bli" style="cursor:pointer;margin-bottom:8px"><span style="font-size:16px;margin-right:8px">\uD83D\uDCE5</span> Importer des donn\u00E9es (JSON)<input type="file" accept=".json" style="display:none" onchange="if(this.files[0]){importJSON(this.files[0]);modal=null;render();}"></label>';
+m+='<div style="border-top:1px solid var(--brd);margin-top:12px;padding-top:12px"><button class="bli" style="border-color:var(--blood);margin-bottom:4px" onclick="modal={t:\'confirm\',title:\'Tout supprimer ?\',msg:\'Supprimer toutes les runs et donn\u00E9es\',hl:\'\',act:\'resetAll\'};render()"><span style="font-size:16px;margin-right:8px">\uD83D\uDDD1\uFE0F</span><span style="color:var(--bl)">Supprimer toutes les donn\u00E9es</span></button></div>';
+m+='<div style="text-align:center;margin-top:16px;font-size:10px;color:var(--tm)">Elden Ring Death Tracker v8<br>'+B.length+' boss \u2022 IndexedDB</div>';
+m+='</div></div>';
+}
+let div=document.getElementById("modal-root");
+if(m){if(!div){div=document.createElement("div");div.id="modal-root";app.appendChild(div);}div.innerHTML=m;
+const bsi=document.getElementById("bsi");if(bsi&&bSrch){bsi.setSelectionRange(bsi.value.length,bsi.value.length);}
+const nri=document.getElementById("nri");if(nri)nri.focus();
+}else if(div)div.remove();
+}
+function doConfirm(){if(!modal)return;if(modal.act==='resetRun')resetRun();else if(modal.act==='unKill')unKill();else if(modal.act==='delRun')delRun(modal.rid);else if(modal.act==='resetAll'){S=JSON.parse(JSON.stringify(DEF));modal=null;save();render();}}
+function renderWpn(v){const dd=document.getElementById("wpdd");if(!dd)return;if(!v){dd.innerHTML='';return;}const f=(S.weapons||[]).filter(function(w){return w.toLowerCase().includes(v.toLowerCase());});if(!f.length){dd.innerHTML='';return;}dd.innerHTML='<div class="wpdd">'+f.slice(0,5).map(function(w){return'<button onclick="document.getElementById(\'kWpn\').value=\''+esc(w).replace(/'/g,"\\'")+'\';document.getElementById(\'wpdd\').innerHTML=\'\'">'+esc(w)+'</button>';}).join('')+'</div>';}
+(async function(){const saved=await dbL();S=saved||JSON.parse(JSON.stringify(DEF));S.runs.forEach(function(r){if(r.timerElapsed===undefined){r.timerElapsed=0;r.timerRunning=false;r.timerLastStart=null;}});if(!S.customNames)S.customNames={};if(!S.customBosses)S.customBosses=[];render();})();
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
+
+</script>
+</body>
+</html>
