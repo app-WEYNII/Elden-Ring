@@ -28,6 +28,7 @@ main{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:8px}
 .bg:disabled{opacity:.4}.bs{padding:4px 10px;background:transparent;border:1px solid var(--brd);border-radius:6px;color:var(--td);font-size:11px;cursor:pointer}.bs.dg{border-color:var(--blood);color:var(--bl)}
 .chip{padding:6px 12px;background:var(--sf2);border:1px solid var(--brd);border-radius:20px;color:var(--td);font-size:12px;cursor:pointer}
 .inp{width:100%;padding:12px 14px;background:var(--sf);border:1px solid var(--brd);border-radius:10px;color:var(--txt);font-size:16px;margin-bottom:10px;outline:none;font-family:var(--fb)}
+select.inp{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23c8a951' stroke-width='2'><polyline points='6 9 12 15 18 9'/></svg>");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
 .run-bar{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:var(--sf);border-radius:10px;margin-bottom:14px;border:1px solid var(--brd);flex-wrap:wrap;gap:6px}
 .boss-btn{width:100%;padding:14px 16px;background:var(--sf);border:1px solid var(--brd);border-radius:10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--txt)}
 .sr{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
@@ -79,121 +80,72 @@ nav button.on{color:var(--gold);border-top-color:var(--gold)}
 <div id="app"><div style="display:flex;align-items:center;justify-content:center;height:100vh"><div style="text-align:center"><div style="font-size:48px;margin-bottom:16px">⚔️</div><div style="font-family:var(--fd);color:var(--gold);font-size:18px">Chargement...</div></div></div></div>
 <script>
 const B=[
-{id:"b001",n:"Soldat de Godrick",z:"Nécrolimbe",c:"u"},
-{id:"b002",n:"Chevalier de l'Arbre Sentinelle",z:"Nécrolimbe",c:"u"},
-{id:"b003",n:"Dragon Volant Agheel",z:"Nécrolimbe",c:"u"},
-{id:"b012",n:"Chevalier Limier Darriwil",z:"Nécrolimbe",c:"u"},
-{id:"b016",n:"Margit, le Présage Déchu",z:"Nécrolimbe",c:"m",ph:2},
-{id:"b020",n:"Patches",z:"Nécrolimbe",c:"u"},
-{id:"b022",n:"Lion Gardien",z:"Château de Voilorage",c:"u"},
-{id:"b024",n:"Godrick le Greffé",z:"Château de Voilorage",c:"m",ph:2},
-{id:"b028",n:"Bâtard Écailleux",z:"Péninsule des Larmes",c:"u"},
-{id:"b032",n:"Léonine Bâtard",z:"Péninsule des Larmes",c:"u"},
-{id:"b034",n:"Miranda la Fleur Putréfiée",z:"Péninsule des Larmes",c:"u"},
-{id:"b037",n:"Adan, Voleur de Feu",z:"Liurnia",c:"u"},
-{id:"b045",n:"Loup Rouge de Radagon",z:"Liurnia",c:"m"},
-{id:"b047",n:"Rennala, Reine de la Pleine Lune",z:"Liurnia",c:"m",ph:2},
-{id:"b048",n:"Seigneur d'Albâtre",z:"Liurnia",c:"u"},
-{id:"b049",n:"Revenant Royal",z:"Liurnia",c:"u"},
-{id:"b050",n:"Chevalière Loretta Royale",z:"Liurnia",c:"u"},
-{id:"b051",n:"Bols, Chevalier de Caria",z:"Liurnia",c:"u"},
-{id:"b052",n:"Alecto, Meneuse de la Lame Noire",z:"Liurnia",c:"u"},
-{id:"b055",n:"Dragon Pierre-Scintillante Adula",z:"Liurnia",c:"u"},
-{id:"b056",n:"Dragon Pierre-Scintillante Smarag",z:"Liurnia",c:"u"},
-{id:"b064",n:"Magma Wyrm Makar",z:"Liurnia",c:"u"},
-{id:"b069",n:"Dragon Putréfié Ekzykes",z:"Caelid",c:"u"},
-{id:"b071",n:"Commandant O'Neil",z:"Caelid",c:"u"},
-{id:"b072",n:"Prêtresse Nox et Épéiste Nox",z:"Caelid",c:"u"},
-{id:"b074",n:"Radahn, Fléau des Étoiles",z:"Caelid",c:"m",ph:2},
-{id:"b076",n:"Duelliste Frénétique",z:"Caelid",c:"u"},
-{id:"b078",n:"Mage de Bataille Hugues",z:"Caelid",c:"u"},
-{id:"b081",n:"Chevalier Crucible & Bâtard Guerrier",z:"Caelid",c:"u"},
-{id:"b082",n:"Dragon Ancien Greyoll",z:"Dragontertre",c:"u"},
-{id:"b085",n:"Dragon Volant Greyll",z:"Dragontertre",c:"u"},
-{id:"b090",n:"Esprit d'Arbre Putréfié",z:"Dragontertre",c:"u"},
-{id:"b093",n:"Elemer de la Ronce",z:"Plateau d'Altus",c:"u"},
-{id:"b097",n:"Nécromancien Garris",z:"Plateau d'Altus",c:"u"},
-{id:"b101",n:"Godefroy le Greffé",z:"Plateau d'Altus",c:"u"},
-{id:"b102",n:"Reine Demi-Humaine Gilika",z:"Plateau d'Altus",c:"u"},
-{id:"b105",n:"Noble Sanguinaire",z:"Plateau d'Altus",c:"u"},
-{id:"b106",n:"Face-de-Ver",z:"Plateau d'Altus",c:"u"},
-{id:"b108",n:"Miranda & Tueur de Présages",z:"Plateau d'Altus",c:"u"},
-{id:"b111",n:"Dragon Ancien Lansseax",z:"Mont Gelmir",c:"u"},
-{id:"b112",n:"Parfumeuse Tricia & Bâtard Guerrier",z:"Mont Gelmir",c:"u"},
-{id:"b115",n:"Bête d'Étoile Filante Adulte",z:"Mont Gelmir",c:"u"},
-{id:"b116",n:"Apparenté de la Putréfaction",z:"Mont Gelmir",c:"u"},
-{id:"b117",n:"Reine Demi-Humaine Maggie",z:"Mont Gelmir",c:"u"},
-{id:"b118",n:"Vierges Abductrices (Duo)",z:"Mont Gelmir",c:"u"},
-{id:"b120",n:"Reine Demi-Humaine Margot",z:"Mont Gelmir",c:"u"},
-{id:"b121",n:"Rykard, Seigneur du Blasphème",z:"Mont Gelmir",c:"m",ph:2},
-{id:"b123",n:"Loup Rouge du Champion",z:"Mont Gelmir",c:"u"},
-{id:"b125",n:"Golem du Pont Divin",z:"Leyndell",c:"u"},
-{id:"b128",n:"Chevalier Crucible Ordovis (Duo)",z:"Leyndell",c:"u"},
-{id:"b129",n:"Jumeaux Déchus",z:"Leyndell",c:"u"},
-{id:"b130",n:"Morgott, le Roi du Présage",z:"Leyndell",c:"m",ph:2},
-{id:"b131",n:"Seigneur d'Onyx",z:"Leyndell",c:"u"},
-{id:"b133",n:"Godfrey, Premier Seigneur (Spectre)",z:"Leyndell",c:"m"},
-{id:"b140",n:"Larme Mimétique (Chemin Caché)",z:"Champs Consacrés",c:"u"},
-{id:"b142",n:"Astel, Étoiles des Ténèbres",z:"Champs Consacrés",c:"u"},
-{id:"b145",n:"Grand Wyrm Theodorix",z:"Champs Consacrés",c:"u"},
-{id:"b146",n:"Croisé Bâtard",z:"Champs Consacrés",c:"u"},
-{id:"b147",n:"Borealis, Brouillard Glacial",z:"Sommet des Géants",c:"u"},
-{id:"b150",n:"Géant de Feu",z:"Sommet des Géants",c:"m",ph:2},
-{id:"b151",n:"Commandant Niall",z:"Sommet des Géants",c:"u"},
-{id:"b152",n:"Vyke, Chevalier de la Table Ronde",z:"Sommet des Géants",c:"u"},
-{id:"b156",n:"Loretta, Chevalière de l'Haligtree",z:"Arbre Sacré",c:"u"},
-{id:"b157",n:"Malenia, Lame de Miquella",z:"Arbre Sacré",c:"m",ph:2},
-{id:"b158",n:"Esprit des Ancêtres",z:"Rivière Siofra",c:"u"},
-{id:"b159",n:"Larme Mimétique",z:"Rivière Siofra",c:"u"},
-{id:"b160",n:"Ancêtre Esprit Royal",z:"Rivière Siofra",c:"m"},
-{id:"b162",n:"Gargouilles Vaillantes (Duo)",z:"Rivière Siofra",c:"u"},
-{id:"b163",n:"Mogh, Seigneur du Sang",z:"Rivière Siofra",c:"m",ph:2},
-{id:"b164",n:"Champions de Fia",z:"Profondeurs",c:"u"},
-{id:"b165",n:"Chevalier Crucible Siluria",z:"Profondeurs",c:"u"},
-{id:"b166",n:"Lichdragon Fortissax",z:"Profondeurs",c:"m"},
-{id:"b170",n:"Astel, Fils de la Nuit",z:"Lac de Pourriture",c:"m"},
-{id:"b171",n:"Duo Godskin",z:"Farum Azula",c:"u"},
-{id:"b172",n:"Maliketh, la Lame Noire",z:"Farum Azula",c:"m",ph:2},
-{id:"b173",n:"Placidusax, Seigneur Dragon",z:"Farum Azula",c:"m",ph:2},
-{id:"b175",n:"Mohg, le Présage (Égouts)",z:"Capitale de Cendres",c:"u"},
-{id:"b176",n:"Sir Gideon Ofnir, le Tout-Savant",z:"Capitale de Cendres",c:"m"},
-{id:"b177",n:"Godfrey / Hoarah Loux, Guerrier",z:"Capitale de Cendres",c:"m",ph:2},
-{id:"b178",n:"Radagon du Titre d'Elden",z:"Capitale de Cendres",c:"m",ph:2},
-{id:"b179",n:"Bête d'Elden",z:"Capitale de Cendres",c:"m"},
-{id:"d001",n:"Chevalier du Gaol Noir",z:"DLC — Plaines des Tombes",c:"u"},
-{id:"d002",n:"Dragon de Flamme Spectrale",z:"DLC — Plaines des Tombes",c:"u"},
-{id:"d004",n:"Maître d'Épée Demi-Humain Onze",z:"DLC — Plaines des Tombes",c:"u"},
-{id:"d005",n:"Homme-Dragon Ancien",z:"DLC — Plaines des Tombes",c:"u"},
-{id:"d006",n:"Bête Divine Dansante (Belurat)",z:"DLC — Plaines des Tombes",c:"m",ph:2},
-{id:"d007",n:"Danseur de Ranah",z:"DLC — Plaines des Tombes",c:"u"},
-{id:"d008",n:"Chef des Sanguinaires",z:"DLC — Plaines des Tombes",c:"u"},
-{id:"d010",n:"Rakshasa",z:"DLC — Plaines des Tombes",c:"u"},
-{id:"d011",n:"Rellana, Chevalière des Lunes Jumelles",z:"DLC — Château Ensis",c:"m"},
-{id:"d012",n:"Lameuse Maudite Labirith",z:"DLC — Château Ensis",c:"u"},
-{id:"d013",n:"Reine Demi-Humaine Marigga",z:"DLC — Côte Céruléenne",c:"u"},
-{id:"d014",n:"Chevalier Putréfié",z:"DLC — Côte Céruléenne",c:"u"},
-{id:"d015",n:"Ralva, le Grand Ours Rouge",z:"DLC — Scadu Altus",c:"u"},
-{id:"d016",n:"Chevalier Noir Edredd",z:"DLC — Scadu Altus",c:"u"},
-{id:"d017",n:"Chevalier Noir Garrew",z:"DLC — Scadu Altus",c:"u"},
-{id:"d018",n:"Jori, Inquisiteur Ancien",z:"DLC — Scadu Altus",c:"u"},
-{id:"d019",n:"Midra, Seigneur de la Frénésie",z:"DLC — Scadu Altus",c:"m",ph:2},
-{id:"d020",n:"Metyr, Mère des Doigts",z:"DLC — Scadu Altus",c:"m",ph:2},
-{id:"d021",n:"Comte Ymir, Mère des Doigts",z:"DLC — Scadu Altus",c:"u"},
-{id:"d022",n:"Hippopotame Doré",z:"DLC — Donjon de l'Ombre",c:"m"},
-{id:"d023",n:"Avatar de l'Arbre des Ombres",z:"DLC — Donjon de l'Ombre",c:"u"},
-{id:"d024",n:"Commandant Gaius",z:"DLC — Donjon de l'Ombre",c:"m"},
-{id:"d025",n:"Messmer l'Empaleur",z:"DLC — Donjon de l'Ombre",c:"m",ph:2},
-{id:"d031",n:"Lamenter",z:"DLC — Pic des Javelots",c:"u"},
-{id:"d032",n:"Dragon Ancien Senessax",z:"DLC — Pic des Javelots",c:"u"},
-{id:"d033",n:"Bayle le Redoutable",z:"DLC — Pic des Javelots",c:"m",ph:2},
-{id:"d034",n:"Rugalea, le Grand Ours Rouge",z:"DLC — Terre de la Tour",c:"u"},
-{id:"d037",n:"Romina, Sainte du Bourgeon",z:"DLC — Terre de la Tour",c:"m"},
-{id:"d038",n:"Leda & Compagnons",z:"DLC — Enir Ilim",c:"m"},
-{id:"d039",n:"Radahn, Époux Promis de Miquella",z:"DLC — Enir Ilim",c:"m",ph:2}
+{id:"leg01",n:"Godrick le Greffé",z:"Nécrolimbe",c:"l",ph:2},
+{id:"leg02",n:"Rennala, Reine de la Pleine Lune",z:"Liurnia, contrée lacustre",c:"l",ph:2},
+{id:"leg03",n:"Radahn, le Fléau des Astres",z:"Caelid",c:"l",ph:2},
+{id:"leg04",n:"Esprit ancestral royal",z:"Rivière Siofra",c:"l"},
+{id:"leg05",n:"Rykard, Seigneur du Blasphème",z:"Plateau d'Altus",c:"l",ph:2},
+{id:"leg06",n:"Astel, Naturenfant du Néant",z:"Rivière Ainsel",c:"l"},
+{id:"leg07",n:"Mohg, Seigneur du Sang",z:"Palais de Mohgwyn",c:"l",ph:2},
+{id:"leg08",n:"Morgott, Roi des Réprouvés",z:"Leyndell, capitale royale",c:"l",ph:2},
+{id:"leg09",n:"Fortissax, la liche draconique",z:"Profondeurs de Fonderacine",c:"l"},
+{id:"leg10",n:"Géant de feu",z:"Cimes des Géants",c:"l",ph:2},
+{id:"leg11",n:"Placidusax, Seigneur-dragon",z:"Ruines de Farum Azula",c:"l",ph:2},
+{id:"leg12",n:"Maliketh, la Lame noire",z:"Ruines de Farum Azula",c:"l",ph:2},
+{id:"leg13",n:"Malenia, Lame de Miquella",z:"Arbre-Sacré de Miquella",c:"l",ph:2},
+{id:"leg14",n:"Godfrey, Premier Seigneur d'Elden & Hoarah Loux",z:"Leyndell, capitale cendrée",c:"l",ph:2},
+{id:"leg15",n:"Radagon de l'Ordre d'Or & Bête d'Elden",z:"Leyndell, capitale cendrée",c:"l",ph:2},
+{id:"leg16",n:"Lion dansant de la Bête divine",z:"DLC — Plaines sépulcrales",c:"l",ph:2,dlc:true},
+{id:"leg17",n:"Rellana, Chevaleresse des Lunes jumelles",z:"DLC — Plaines sépulcrales",c:"l",ph:2,dlc:true},
+{id:"leg18",n:"Chevalier putrescent",z:"DLC — Fissure des cercueils",c:"l",ph:2,dlc:true},
+{id:"leg19",n:"Avatar de l'Arbre-occulte",z:"DLC — Scadu Altus",c:"l",dlc:true},
+{id:"leg19b",n:"Bayle l'Effroyable",z:"DLC — Pic Déchiqueté",c:"l",ph:2,dlc:true},
+{id:"leg20",n:"Messmer l'Empaleur",z:"DLC — Scadu Altus",c:"l",ph:2,dlc:true},
+{id:"leg21",n:"Romina, Sainte du Bourgeon",z:"DLC — Ruines de Rauh",c:"l",dlc:true},
+{id:"leg22",n:"Metyr, Mère des Doigts",z:"DLC — Scadu Altus",c:"l",ph:2,dlc:true},
+{id:"leg23",n:"Commandant Gaïus",z:"DLC — Scadu Altus",c:"l",dlc:true},
+{id:"leg24",n:"Midra, Seigneur de la Flamme frénétique",z:"DLC — Bois Abyssaux",c:"l",ph:2,dlc:true},
+{id:"leg25",n:"Radahn, Futur Consort",z:"DLC — Enir Ilim",c:"l",ph:2,dlc:true}
 ];
 
-const CAT={m:{l:"Majeurs",i:"\u{1F451}"},u:{l:"Uniques",i:"\u2694\uFE0F"}};
+const CAT={l:{l:"Légendaire",i:"\u{1F451}"},b:{l:"Boss",i:"\u2694\uFE0F"},u:{l:"Unique",i:"\u{1F6E1}\uFE0F"},i:{l:"Invasion",i:"\u{1F5E1}\uFE0F"}};
 const ZONES=[...new Set(B.map(b=>b.z))];
+// Liste complète des zones du jeu pour le dropdown d'ajout/modification
+const ZONES_ALL=[
+"Nécrolimbe",
+"Péninsule Larmoyante",
+"Château de Voilorage",
+"Liurnia, contrée lacustre",
+"Académie de Raya Lucaria",
+"Caelid",
+"Dragonbarrow",
+"Plateau d'Altus",
+"Mont Gelmir",
+"Manoir du Volcan",
+"Leyndell, capitale royale",
+"Leyndell, capitale cendrée",
+"Bastion de la Table ronde",
+"Cimes des Géants",
+"Champs enneigés consacrés",
+"Arbre-Sacré de Miquella",
+"Ruines de Farum Azula",
+"Rivière Siofra",
+"Nokron, ville éternelle",
+"Rivière Ainsel",
+"Nokstella, cité éternelle",
+"Profondeurs de Fonderacine",
+"Palais de Mohgwyn",
+"Lac putréfié",
+"DLC — Plaines sépulcrales",
+"DLC — Côte Azurée",
+"DLC — Fissure des cercueils",
+"DLC — Scadu Altus",
+"DLC — Ruines de Rauh",
+"DLC — Bois Abyssaux",
+"DLC — Pic Déchiqueté",
+"DLC — Enir Ilim",
+"Autre"
+];
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 const gB=id=>{var b=B.find(x=>x.id===id);if(!b&&S&&S.customBosses)b=S.customBosses.find(x=>x.id===id);return b||null;};
@@ -251,36 +203,88 @@ function selBoss(id){
 }
 function resetRun(){const r=gRun();if(!r)return;S.deaths=S.deaths.filter(x=>x.runId!==S.currentRunId);S.kills=S.kills.filter(x=>x.runId!==S.currentRunId);r.totalDeaths=0;r.timerElapsed=0;r.timerRunning=false;r.timerLastStart=null;stopTI();modal=null;save();render();}
 function delRun(rid){S.runs=S.runs.filter(r=>r.id!==rid);S.deaths=S.deaths.filter(x=>x.runId!==rid);S.kills=S.kills.filter(x=>x.runId!==rid);if(S.currentRunId===rid){S.currentRunId=S.runs.length?S.runs[S.runs.length-1].id:null;stopTI();}modal=null;save();render();}
-function confirmKill(level,weapon){const run=gRun(),boss=gBoss();if(!run||!boss)return;S.kills=S.kills.filter(k=>!(k.runId===S.currentRunId&&k.bossId===S.currentBossId));const deaths=bD(S.currentRunId,S.currentBossId).length;
-S.kills.push({id:uid(),runId:S.currentRunId,bossId:S.currentBossId,level,weapon,deaths,firstTry:deaths===0,timestamp:new Date().toISOString()});if(weapon&&!S.weapons.includes(weapon))S.weapons.push(weapon);modal=null;save();render();}
+function confirmKill(level){const run=gRun(),boss=gBoss();if(!run||!boss)return;S.kills=S.kills.filter(k=>!(k.runId===S.currentRunId&&k.bossId===S.currentBossId));const deaths=bD(S.currentRunId,S.currentBossId).length;
+S.kills.push({id:uid(),runId:S.currentRunId,bossId:S.currentBossId,level,deaths,firstTry:deaths===0,timestamp:new Date().toISOString()});modal=null;save();render();}
 function unKill(){S.kills=S.kills.filter(k=>!(k.runId===S.currentRunId&&k.bossId===S.currentBossId));modal=null;save();render();}
 function exportJSON(){if(!S)return;const j=JSON.stringify(S,null,2);const a=document.createElement("a");a.href="data:text/plain;charset=utf-8,"+encodeURIComponent(j);a.download="elden-tracker-"+new Date().toISOString().slice(0,10)+".json";document.body.appendChild(a);a.click();document.body.removeChild(a);}
 function importJSON(f){const r=new FileReader();r.onload=e=>{try{const d=JSON.parse(e.target.result);if(d.runs&&d.deaths){d.kills=d.kills||[];d.weapons=d.weapons||[];S=d;S.runs.forEach(r=>{if(r.timerElapsed===undefined){r.timerElapsed=0;r.timerRunning=false;r.timerLastStart=null;}});save();render();}}catch{alert("Fichier invalide");}};r.readAsText(f);}
-function updPhase(){const el=document.getElementById('phase-info');if(!el)return;const boss=gBoss();if(!boss||!boss.ph)return;const deaths=bD(S.currentRunId,boss.id);const p1=deaths.filter(d=>d.phase===1||!d.phase).length;const p2=deaths.filter(d=>d.phase===2).length;const total=p1+p2;if(!total){el.innerHTML='';return;}const pct=Math.round((p1/total)*100);el.innerHTML='<div style="font-size:11px;color:var(--td);text-align:center;margin-bottom:10px">Phase 1: <span style="color:var(--bl)">'+p1+'</span> ('+pct+'%) \u00B7 Phase 2: <span style="color:var(--gold)">'+p2+'</span> ('+(100-pct)+'%)</div>';}
+function updPhase(){const el=document.getElementById('phase-info');if(!el)return;const boss=gBoss();if(!boss||!boss.ph)return;const deaths=bD(S.currentRunId,boss.id);const p1=deaths.filter(d=>d.phase===1||!d.phase).length;const p2=deaths.filter(d=>d.phase===2).length;const p3=deaths.filter(d=>d.phase===3).length;const total=p1+p2+p3;const hasP3=boss.ph>=3;if(!total){el.innerHTML='';return;}var html='<div style="font-size:11px;color:var(--td);text-align:center;margin-bottom:10px">P1: <span style="color:var(--bl)">'+p1+'</span> ('+Math.round(p1/total*100)+'%) \u00B7 P2: <span style="color:var(--gold)">'+p2+'</span> ('+Math.round(p2/total*100)+'%)';if(hasP3)html+=' \u00B7 P3: <span style="color:#c06af0">'+p3+'</span> ('+Math.round(p3/total*100)+'%)';html+='</div>';el.innerHTML=html;}
 
+function isCustom(b){return b&&(b.custom===true||(b.id&&b.id.charAt(0)==='x'));}
+function buildZoneSelect(selectId,currentZone){
+var out='<select class="inp" id="'+selectId+'">';
+var found=false;
+ZONES_ALL.forEach(function(z){
+var sel=(z===currentZone);
+if(sel)found=true;
+out+='<option value="'+esc(z)+'"'+(sel?' selected':'')+'>'+esc(z)+'</option>';
+});
+// Si la zone actuelle n'est pas dans la liste prédéfinie, l'ajouter
+if(currentZone&&!found){
+out='<select class="inp" id="'+selectId+'"><option value="'+esc(currentZone)+'" selected>'+esc(currentZone)+' (actuelle)</option>'+out.substring(out.indexOf('>')+1);
+}
+out+='</select>';
+return out;
+}
 function buildBossList(){
 var run=gRun();var rd=run?rD(run.id):[];var rk=run?rK(run.id):[];
 var ab=allBosses();
 var fB=ab.filter(function(b){return(bCat==="all"||b.c===bCat)&&bn(b.id).toLowerCase().includes(bSrch.toLowerCase());});
-var fZ=[...new Set(fB.map(function(b){return b.z;}))];
-var out='';
-fZ.forEach(function(z){
-out+='<div class="zh">'+esc(z)+'</div>';
-fB.filter(function(b){return b.z===z;}).forEach(function(b){
+// Répartition en 3 groupes : base / dlc / custom
+var groups={base:[],dlc:[],custom:[]};
+fB.forEach(function(b){
+if(isCustom(b))groups.custom.push(b);
+else if(b.dlc)groups.dlc.push(b);
+else groups.base.push(b);
+});
+// Trier les customs par zone (ordre de ZONES_ALL)
+groups.custom.sort(function(a,b){
+var ia=ZONES_ALL.indexOf(a.z),ib=ZONES_ALL.indexOf(b.z);
+if(ia===-1)ia=999;if(ib===-1)ib=999;
+return ia-ib;
+});
+// Helper : dessiner une ligne de boss
+function drawBoss(b){
 var dc=rd.filter(function(d){return d.bossId===b.id;}).length;
 var killed=rk.some(function(k){return k.bossId===b.id;});
 var ft=rk.some(function(k){return k.bossId===b.id&&k.firstTry;});
 var sel=S.currentBossId===b.id;
 var name=bn(b.id);
-out+='<div style="display:flex;align-items:center;gap:4px;margin-bottom:4px"><button class="bli" style="flex:1;border-color:'+(sel?'var(--gold)':killed?'rgba(58,122,58,.37)':'var(--brd)')+';background:'+(sel?'rgba(200,169,81,.06)':killed?'rgba(58,122,58,.03)':'transparent')+'" onclick="selBoss(\''+b.id+'\')"><span style="color:'+(killed?'var(--ok)':'var(--txt)')+';font-size:13px;display:flex;align-items:center;gap:2px;flex:1;min-width:0"><span style="font-size:10px;margin-right:3px;flex-shrink:0">'+ci(b.c)+'</span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(name)+'</span>'+(b.ph?'<span style="font-size:8px;color:var(--tm);margin-left:2px">\u00D72</span>':'')+'</span><span style="display:flex;align-items:center;gap:4px;flex-shrink:0">'+(dc>0?'<span style="color:var(--bl);font-size:12px;font-family:var(--fd)">'+dc+'\uD83D\uDC80</span>':'')+(ft?'<span style="font-size:11px">\u2728</span>':killed?'<span style="color:var(--ok);font-size:11px">\u2705</span>':dc===0?'<span style="color:var(--tm);font-size:10px">\u2014</span>':'')+'</span></button><button onclick="modal={t:\'renameBoss\',bid:\''+b.id+'\',origName:\''+esc(b.n).replace(/'/g,"\\'")+'\',curName:\''+esc(name).replace(/'/g,"\\'")+'\' };renderModal()" style="background:none;border:none;color:var(--td);font-size:14px;padding:6px;cursor:pointer;flex-shrink:0">\u270F\uFE0F</button></div>';
-});});
+var custom=isCustom(b);
+var o='<div id="bl-'+b.id+'" style="display:flex;align-items:center;gap:4px;margin-bottom:4px"><button class="bli" style="flex:1;border-color:'+(sel?'var(--gold)':killed?'rgba(58,122,58,.37)':'var(--brd)')+';background:'+(sel?'rgba(200,169,81,.06)':killed?'rgba(58,122,58,.03)':'transparent')+'" onclick="selBoss(\''+b.id+'\')"><span style="color:'+(killed?'var(--ok)':'var(--txt)')+';font-size:13px;display:flex;align-items:center;gap:2px;flex:1;min-width:0"><span style="font-size:10px;margin-right:3px;flex-shrink:0">'+ci(b.c)+'</span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(name)+'</span>'+(b.ph?'<span style="font-size:8px;color:var(--tm);margin-left:2px">\u00D7'+b.ph+'</span>':'')+'</span><span style="display:flex;align-items:center;gap:4px;flex-shrink:0">'+(dc>0?'<span style="color:var(--bl);font-size:12px;font-family:var(--fd)">'+dc+'\uD83D\uDC80</span>':'')+(ft?'<span style="font-size:11px">\u2728</span>':killed?'<span style="color:var(--ok);font-size:11px">\u2705</span>':dc===0?'<span style="color:var(--tm);font-size:10px">\u2014</span>':'')+'</span></button>';
+if(custom){
+o+='<button onclick="modal={t:\'editBoss\',bid:\''+b.id+'\'};renderModal()" title="Modifier" style="background:none;border:none;color:var(--td);font-size:14px;padding:6px;cursor:pointer;flex-shrink:0">\u270F\uFE0F</button>';
+o+='<button onclick="modal={t:\'confirm\',title:\'Supprimer ce boss ?\',msg:\'Supprimer d\u00E9finitivement\',hl:\''+esc(name).replace(/'/g,"\\'")+'\',act:\'delCustomBoss\',bid:\''+b.id+'\'};renderModal()" title="Supprimer" style="background:none;border:none;color:var(--bl);font-size:14px;padding:6px;cursor:pointer;flex-shrink:0">\uD83D\uDDD1\uFE0F</button>';
+}
+o+='</div>';
+return o;
+}
+var out='';
+// Base & DLC : liste plate dans l'ordre du tableau
+[{key:'base',label:'Jeu de base'},{key:'dlc',label:'DLC — Shadow of the Erdtree'}].forEach(function(s){
+if(!groups[s.key].length)return;
+out+='<div class="zh">'+esc(s.label)+' <span style="opacity:.5">('+groups[s.key].length+')</span></div>';
+groups[s.key].forEach(function(b){out+=drawBoss(b);});
+});
+// Custom : groupé par zone
+if(groups.custom.length>0){
+out+='<div class="zh">Boss personnalis\u00E9s <span style="opacity:.5">('+groups.custom.length+')</span></div>';
+var lastZone='';
+groups.custom.forEach(function(b){
+if(b.z!==lastZone){
+out+='<div style="font-size:10px;color:var(--gd);letter-spacing:1px;padding:6px 4px 2px;font-family:var(--fd)">'+esc(b.z)+'</div>';
+lastZone=b.z;
+}
+out+=drawBoss(b);
+});
+}
 return out;
 }
 function updBossList(){var el=document.getElementById('boss-list');if(el)el.innerHTML=buildBossList();}
 function updBossCats(){
 var el=document.getElementById('boss-cats');if(!el)return;
 var ab=allBosses();var out='';
-["all","m","u"].forEach(function(k){
+["all","l","b","u","i"].forEach(function(k){
 var cnt=k==="all"?ab.filter(function(b){return bn(b.id).toLowerCase().includes(bSrch.toLowerCase());}).length:ab.filter(function(b){return b.c===k&&bn(b.id).toLowerCase().includes(bSrch.toLowerCase());}).length;
 out+='<button class="ctab'+(bCat===k?' on':'')+'" onclick="bCat=\''+k+'\';updBossCats();updBossList()">'+(k!=="all"?CAT[k].i+' ':'')+(k==="all"?"Tous":CAT[k].l)+' <span style="opacity:.5;margin-left:2px">'+cnt+'</span></button>';
 });
@@ -289,12 +293,23 @@ el.innerHTML=out;
 function addCustomBoss(name,zone,cat){
 if(!S.customBosses)S.customBosses=[];
 var id='x'+uid();
-S.customBosses.push({id:id,n:name,z:zone,c:cat});
+S.customBosses.push({id:id,n:name,z:zone||'Autre',c:cat||'b',custom:true});
 save();modal='boss';renderModal();
 }
-function renameBoss(bid,newName){
-if(!S.customNames)S.customNames={};
-S.customNames[bid]=newName;
+function editCustomBoss(bid,name,zone,cat){
+if(!S.customBosses)return;
+var b=S.customBosses.find(function(x){return x.id===bid;});
+if(!b)return;
+b.n=name;b.z=zone||'Autre';b.c=cat||'b';
+save();modal='boss';renderModal();
+}
+function delCustomBoss(bid){
+if(!S.customBosses)return;
+S.customBosses=S.customBosses.filter(function(b){return b.id!==bid;});
+S.deaths=S.deaths.filter(function(d){return d.bossId!==bid;});
+S.kills=S.kills.filter(function(k){return k.bossId!==bid;});
+if(S.customNames)delete S.customNames[bid];
+if(S.currentBossId===bid)S.currentBossId=null;
 save();modal='boss';renderModal();
 }
 function buildKillList(){
@@ -306,7 +321,7 @@ var out='';
 if(!sorted2.length)return'<div style="text-align:center;color:var(--td);padding:12px">Aucun r\u00E9sultat</div>';
 sorted2.forEach(function(k){
 var bInfo=gB(k.bossId);if(!bInfo)return;
-out+='<div class="rr"><div style="display:flex;align-items:center;gap:4px;flex:1;min-width:0"><span style="font-size:10px;margin-right:3px">'+ci(bInfo.c)+'</span><span style="color:var(--txt);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(bn(k.bossId))+'</span>'+(k.firstTry?'<span style="color:var(--ok);font-size:9px;flex-shrink:0">\u2728</span>':'')+'</div><div style="display:flex;align-items:center;gap:6px;flex-shrink:0">'+(k.weapon?'<span style="color:var(--tm);font-size:10px;max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(k.weapon)+'</span>':'')+(k.level?'<span style="color:var(--td);font-size:10px">Niv.'+k.level+'</span>':'')+'<span style="font-family:var(--fd);color:'+(k.firstTry?'#6fd06f':'var(--bl)')+';font-size:13px">'+((k.deaths||0)===0?'\u2728':k.deaths+'\uD83D\uDC80')+'</span></div></div>';
+out+='<div class="rr" style="cursor:pointer" onclick="modal={t:\'bossDetail\',bid:\''+k.bossId+'\'};renderModal()"><div style="display:flex;align-items:center;gap:4px;flex:1;min-width:0"><span style="font-size:10px;margin-right:3px">'+ci(bInfo.c)+'</span><span style="color:var(--txt);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(bn(k.bossId))+'</span>'+(k.firstTry?'<span style="color:var(--ok);font-size:9px;flex-shrink:0">\u2728</span>':'')+'</div><div style="display:flex;align-items:center;gap:6px;flex-shrink:0">'+(k.level?'<span style="color:var(--td);font-size:10px">Niv.'+k.level+'</span>':'')+'<span style="font-family:var(--fd);color:'+(k.firstTry?'#6fd06f':'var(--bl)')+';font-size:13px">'+((k.deaths||0)===0?'\u2728':k.deaths+'\uD83D\uDC80')+'</span></div></div>';
 });
 return out;
 }
@@ -335,22 +350,30 @@ h+='</button></div>';
 // Kill banner
 if(bk){
 h+='<div class="kb"><div><div style="color:#6fd06f;font-size:12px;font-family:var(--fd)">'+(bk.firstTry?'\u2728 FIRST TRY':'\u2705 BOSS BATTU')+'</div><div style="color:var(--td);font-size:11px;margin-top:2px">';
-if(bk.level)h+='Niv. '+bk.level;if(bk.level&&bk.weapon)h+=' \u00B7 ';if(bk.weapon)h+=esc(bk.weapon);
-if(!bk.level&&!bk.weapon)h+=bk.deaths+' mort'+(bk.deaths!==1?'s':'');
+if(bk.level)h+='Niv. '+bk.level;
+if(!bk.level)h+=bk.deaths+' mort'+(bk.deaths!==1?'s':'');
 h+='</div></div><button class="bs dg" style="font-size:10px" onclick="modal={t:\'confirm\',title:\'Annuler la victoire ?\',msg:\'Retirer la victoire sur\',hl:\''+esc(boss.n).replace(/'/g,"\\'")+'\',act:\'unKill\'};render()">Retirer</button></div>';
 }
 // Stats
 h+='<div class="sr"><div class="sb"><div class="sl">Morts totales</div><div class="sv" id="v-total">'+rd.length+'</div></div><div class="sb"><div class="sl">Sur ce boss</div><div class="sv" id="v-boss" style="color:'+(bd>0?'var(--bl)':'var(--ok)') +'">'+(boss?bd:'\u2014')+'</div></div></div>';
 // Death buttons
-if(boss&&boss.ph&&!bk){
-// Multi-phase death buttons
+if(boss&&boss.ph&&boss.ph>=2&&!bk){
+// Multi-phase death buttons (supports 2 or 3 phases)
 const deaths=bD(S.currentRunId,boss.id);
 const p1=deaths.filter(d=>d.phase===1||!d.phase).length;
 const p2=deaths.filter(d=>d.phase===2).length;
-const total=p1+p2;
-h+='<div class="phase-row"><button class="phase-btn" id="pb1" onclick="addDeath(1)"><div style="font-size:32px">\uD83D\uDC80</div><div style="font-family:var(--fd);font-size:16px;letter-spacing:1px;margin-top:4px">+1 MORT</div><div style="font-size:10px;color:var(--tm);margin-top:2px">Phase 1</div></button><button class="phase-btn" id="pb2" onclick="addDeath(2)"><div style="font-size:32px">\uD83D\uDC80</div><div style="font-family:var(--fd);font-size:16px;letter-spacing:1px;margin-top:4px">+1 MORT</div><div style="font-size:10px;color:var(--gold);margin-top:2px">Phase 2</div></button></div>';
+const p3=deaths.filter(d=>d.phase===3).length;
+const total=p1+p2+p3;
+const hasP3=boss.ph>=3;
+h+='<div class="phase-row"><button class="phase-btn" id="pb1" onclick="addDeath(1)"><div style="font-size:28px">\uD83D\uDC80</div><div style="font-family:var(--fd);font-size:14px;letter-spacing:1px;margin-top:4px">+1 MORT</div><div style="font-size:10px;color:var(--tm);margin-top:2px">Phase 1</div></button><button class="phase-btn" id="pb2" onclick="addDeath(2)"><div style="font-size:28px">\uD83D\uDC80</div><div style="font-family:var(--fd);font-size:14px;letter-spacing:1px;margin-top:4px">+1 MORT</div><div style="font-size:10px;color:var(--gold);margin-top:2px">Phase 2</div></button>';
+if(hasP3)h+='<button class="phase-btn" id="pb3" onclick="addDeath(3)"><div style="font-size:28px">\uD83D\uDC80</div><div style="font-family:var(--fd);font-size:14px;letter-spacing:1px;margin-top:4px">+1 MORT</div><div style="font-size:10px;color:#c06af0;margin-top:2px">Phase 3</div></button>';
+h+='</div>';
 h+='<div id="phase-info">';
-if(total>0){const pct=Math.round((p1/total)*100);h+='<div style="font-size:11px;color:var(--td);text-align:center;margin-bottom:10px">Phase 1: <span style="color:var(--bl)">'+p1+'</span> ('+pct+'%) \u00B7 Phase 2: <span style="color:var(--gold)">'+p2+'</span> ('+(100-pct)+'%)</div>';}
+if(total>0){
+h+='<div style="font-size:11px;color:var(--td);text-align:center;margin-bottom:10px">P1: <span style="color:var(--bl)">'+p1+'</span>'+(total>0?' ('+Math.round(p1/total*100)+'%)':'')+' \u00B7 P2: <span style="color:var(--gold)">'+p2+'</span>'+(total>0?' ('+Math.round(p2/total*100)+'%)':'');
+if(hasP3)h+=' \u00B7 P3: <span style="color:#c06af0">'+p3+'</span>'+(total>0?' ('+Math.round(p3/total*100)+'%)':'');
+h+='</div>';
+}
 h+='</div>';
 }else{
 h+='<button class="death-btn" id="death-main" onclick="addDeath()"><span style="font-size:48px">\uD83D\uDC80</span><span style="font-family:var(--fd);font-size:22px;letter-spacing:2px">+1 MORT</span></button>';
@@ -358,16 +381,24 @@ h+='<button class="death-btn" id="death-main" onclick="addDeath()"><span style="
 if(boss&&!bk){
 h+='<div style="display:flex;gap:8px;margin-bottom:12px">';
 h+='<button class="kill-btn" style="flex:1" onclick="modal=\'kill\';render()"><span style="font-size:18px">\u2694\uFE0F</span> BOSS BATTU</button>';
-if(bd===0)h+='<button class="kill-btn" style="flex:1;background:linear-gradient(135deg,#2a6a8a,#1a9aaa)" onclick="confirmKill(null,null)"><span style="font-size:18px">\u2728</span> FIRST TRY</button>';
+if(bd===0)h+='<button class="kill-btn" style="flex:1;background:linear-gradient(135deg,#2a6a8a,#1a9aaa)" onclick="modal=\'kill\';render()"><span style="font-size:18px">\u2728</span> FIRST TRY</button>';
 h+='</div>';
 }
 if(rd.length>0)h+='<button class="undo-btn" onclick="undoDeath()">\u21A9 Annuler derni\u00E8re mort</button>';
 // Zone progress
 h+='<div class="ss" style="margin-bottom:14px"><div class="lbl" style="margin-bottom:10px">Progression par zone</div>';
-ZONES.forEach(function(z){
-const zB=B.filter(function(b){return b.z===z;});
+var ab=allBosses();
+var allZones=[...new Set(ab.map(function(b){return b.z;}))];
+// Trier les zones dans l'ordre de ZONES_ALL
+allZones.sort(function(a,b){
+var ia=ZONES_ALL.indexOf(a),ib=ZONES_ALL.indexOf(b);
+if(ia===-1)ia=999;if(ib===-1)ib=999;
+return ia-ib;
+});
+allZones.forEach(function(z){
+const zB=ab.filter(function(b){return b.z===z;});
 const killed=zB.filter(function(b){return rk.some(function(k){return k.bossId===b.id;});}).length;
-const pct=Math.round((killed/zB.length)*100);
+const pct=zB.length>0?Math.round((killed/zB.length)*100):0;
 const col=pct===100?'var(--ok)':pct>50?'var(--gold)':'var(--bl)';
 h+='<div class="zp"><div class="zp-h"><span class="zp-n">'+esc(z)+'</span><span class="zp-c">'+killed+'/'+zB.length+'</span></div><div class="zp-bar"><div class="zp-fill" style="width:'+pct+'%;background:'+col+'"></div></div></div>';
 });
@@ -403,19 +434,14 @@ const ftC=S.kills.filter(function(k){return k.firstTry;}).length;
 const kwD=S.deaths.filter(function(d){return d.bossId&&S.kills.some(function(k){return k.bossId===d.bossId&&k.runId===d.runId;});}).length;
 const avg=S.kills.length>0?(kwD/S.kills.length).toFixed(1):'\u2014';
 h+='<div class="sg"><div class="sc"><div class="scl">Morts totales</div><div class="scv">'+S.deaths.length+'</div></div><div class="sc"><div class="scl">Boss battus</div><div class="scv" style="color:var(--ok)">'+S.kills.length+'</div></div><div class="sc"><div class="scl">First Try</div><div class="scv" style="color:#6fd06f">'+ftC+' \u2728</div></div><div class="sc"><div class="scl">Moy. / Boss</div><div class="scv">'+avg+'</div></div></div>';
-// Phase stats
-const phD=S.deaths.filter(function(d){return d.phase;});
-if(phD.length>0){const p1=phD.filter(function(d){return d.phase===1;}).length;const p2=phD.filter(function(d){return d.phase===2;}).length;
-h+='<div class="stit" style="font-size:14px;margin-top:24px">Morts par Phase</div><div class="sr"><div class="sb"><div class="sl">Phase 1</div><div class="sv" style="color:var(--bl)">'+p1+'</div><div style="font-size:11px;color:var(--td)">'+Math.round(p1/(p1+p2)*100)+'%</div></div><div class="sb"><div class="sl">Phase 2</div><div class="sv" style="color:var(--gold)">'+p2+'</div><div style="font-size:11px;color:var(--td)">'+Math.round(p2/(p1+p2)*100)+'%</div></div></div>';
-}
 // Ranking (always visible, no search filter)
 const bbAll={};S.deaths.forEach(function(d){if(d.bossId)bbAll[d.bossId]=(bbAll[d.bossId]||0)+1;});
 const sorted=Object.entries(bbAll).sort(function(a,b){return b[1]-a[1];});
 if(sorted.length>0){const mx=sorted[0][1];
-h+='<div class="stit" style="font-size:14px;margin-top:24px">Classement des boss les plus difficiles</div>';
+h+='<div class="stit" style="font-size:14px;margin-top:24px">Classement des boss les plus difficiles</div><div style="font-size:10px;color:var(--tm);margin-bottom:8px;text-align:center">Cliquez sur un boss pour voir le d\u00E9tail</div>';
 sorted.slice(0,10).forEach(function(e,i){const id=e[0],cnt=e[1];
 const kill=S.kills.find(function(k){return k.bossId===id;});const pct=Math.round((cnt/mx)*100);
-h+='<div class="rr"><div style="display:flex;align-items:center;gap:4px;flex:1;min-width:0"><span style="font-family:var(--fd);color:'+(i<5?'var(--gold)':'var(--tm)')+';font-size:13px;width:24px;text-align:right;flex-shrink:0">'+(i===0?'\uD83D\uDC51':'#'+(i+1))+'</span><span style="font-size:10px;margin-right:3px">'+ci(gB(id)?.c)+'</span><span style="color:var(--txt);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(bn(id))+'</span>'+(kill?'<span style="color:var(--ok);font-size:9px;flex-shrink:0">'+(kill.firstTry?'\u2728':'\u2705')+'</span>':'')+'</div><div style="display:flex;align-items:center;gap:6px;flex-shrink:0"><div style="width:50px;height:6px;border-radius:3px;background:var(--sf2);overflow:hidden"><div style="height:100%;border-radius:3px;width:'+pct+'%;background:linear-gradient(90deg,var(--blood),var(--bl))"></div></div><span style="font-family:var(--fd);color:var(--bl);font-size:13px;width:28px;text-align:right">'+cnt+'</span></div></div>';
+h+='<div class="rr" style="cursor:pointer" onclick="modal={t:\'bossDetail\',bid:\''+id+'\'};renderModal()"><div style="display:flex;align-items:center;gap:4px;flex:1;min-width:0"><span style="font-family:var(--fd);color:'+(i<5?'var(--gold)':'var(--tm)')+';font-size:13px;width:24px;text-align:right;flex-shrink:0">'+(i===0?'\uD83D\uDC51':'#'+(i+1))+'</span><span style="font-size:10px;margin-right:3px">'+ci(gB(id)?.c)+'</span><span style="color:var(--txt);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(bn(id))+'</span>'+(kill?'<span style="color:var(--ok);font-size:9px;flex-shrink:0">'+(kill.firstTry?'\u2728':'\u2705')+'</span>':'')+'</div><div style="display:flex;align-items:center;gap:6px;flex-shrink:0"><div style="width:50px;height:6px;border-radius:3px;background:var(--sf2);overflow:hidden"><div style="height:100%;border-radius:3px;width:'+pct+'%;background:linear-gradient(90deg,var(--blood),var(--bl))"></div></div><span style="font-family:var(--fd);color:var(--bl);font-size:13px;width:28px;text-align:right">'+cnt+'</span></div></div>';
 });}
 // Boss battus (collapsible with search)
 if(rk.length>0){
@@ -449,7 +475,7 @@ if(modal==="boss"){
 m='<div class="ov" onclick="modal=null;bSrch=\'\';bCat=\'all\';render()"><div class="mdl" onclick="event.stopPropagation()"><div class="mh"><span class="mt">Boss ('+allBosses().length+')</span><button class="cb" onclick="modal=null;bSrch=\'\';bCat=\'all\';render()">\u2715</button></div>';
 m+='<input class="inp" id="bsi" placeholder="Rechercher un boss..." value="'+esc(bSrch)+'" oninput="bSrch=this.value;updBossList()">';
 m+='<div class="ctabs" id="boss-cats">';
-["all","m","u"].forEach(function(k){
+["all","l","b","u","i"].forEach(function(k){
 var ab=allBosses();var cnt=k==="all"?ab.filter(function(b){return bn(b.id).toLowerCase().includes(bSrch.toLowerCase());}).length:ab.filter(function(b){return b.c===k&&bn(b.id).toLowerCase().includes(bSrch.toLowerCase());}).length;
 m+='<button class="ctab'+(bCat===k?' on':'')+'" onclick="bCat=\''+k+'\';updBossCats();updBossList()">'+(k!=="all"?CAT[k].i+' ':'')+(k==="all"?"Tous":CAT[k].l)+' <span style="opacity:.5;margin-left:2px">'+cnt+'</span></button>';
 });
@@ -461,15 +487,89 @@ m+='</div></div>';
 }else if(modal==="addBoss"){
 m='<div class="ov" onclick="modal=\'boss\';renderModal()"><div class="mdl" onclick="event.stopPropagation()"><div class="mh"><span class="mt">Ajouter un boss</span><button class="cb" onclick="modal=\'boss\';renderModal()">\u2715</button></div>';
 m+='<div style="margin-bottom:12px"><div style="font-size:11px;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Nom du boss</div><input class="inp" id="addBossName" placeholder="Ex: Mon boss custom"></div>';
-m+='<div style="margin-bottom:12px"><div style="font-size:11px;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Zone</div><input class="inp" id="addBossZone" placeholder="Ex: Necrolimbe"></div>';
-m+='<div style="margin-bottom:12px"><div style="font-size:11px;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Type</div><div style="display:flex;gap:8px"><button class="ctab on" id="addT-u" onclick="document.querySelectorAll(\'[id^=addT-]\').forEach(function(e){e.className=\'ctab\'});this.className=\'ctab on\'">\u2694\uFE0F Unique</button><button class="ctab" id="addT-m" onclick="document.querySelectorAll(\'[id^=addT-]\').forEach(function(e){e.className=\'ctab\'});this.className=\'ctab on\'">\uD83D\uDC51 Majeur</button></div></div>';
-m+='<button class="bg" style="width:100%" onclick="var n=document.getElementById(\'addBossName\').value.trim();var z=document.getElementById(\'addBossZone\').value.trim();if(!n){alert(\'Nom requis\');return;}var c=document.getElementById(\'addT-m\').className.includes(\'on\')?\'m\':\'u\';addCustomBoss(n,z||\'Autre\',c)">Ajouter</button>';
+m+='<div style="margin-bottom:12px"><div style="font-size:11px;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Zone</div>'+buildZoneSelect('addBossZone','Nécrolimbe')+'</div>';
+m+='<div style="margin-bottom:12px"><div style="font-size:11px;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Type</div><div style="display:flex;gap:6px;flex-wrap:wrap">';
+m+='<button class="ctab on" id="addT-b" onclick="document.querySelectorAll(\'[id^=addT-]\').forEach(function(e){e.className=\'ctab\'});this.className=\'ctab on\'">\u2694\uFE0F Boss</button>';
+m+='<button class="ctab" id="addT-l" onclick="document.querySelectorAll(\'[id^=addT-]\').forEach(function(e){e.className=\'ctab\'});this.className=\'ctab on\'">\uD83D\uDC51 L\u00E9gendaire</button>';
+m+='<button class="ctab" id="addT-u" onclick="document.querySelectorAll(\'[id^=addT-]\').forEach(function(e){e.className=\'ctab\'});this.className=\'ctab on\'">\uD83D\uDEE1\uFE0F Unique</button>';
+m+='<button class="ctab" id="addT-i" onclick="document.querySelectorAll(\'[id^=addT-]\').forEach(function(e){e.className=\'ctab\'});this.className=\'ctab on\'">\uD83D\uDDE1\uFE0F Invasion</button>';
 m+='</div></div>';
-}else if(modal&&modal.t==="renameBoss"){
-m='<div class="ov" onclick="modal=\'boss\';renderModal()"><div class="mdl" onclick="event.stopPropagation()"><div class="mh"><span class="mt">Renommer</span><button class="cb" onclick="modal=\'boss\';renderModal()">\u2715</button></div>';
-m+='<div style="font-family:var(--fd);color:var(--gold);font-size:14px;margin-bottom:12px;text-align:center">'+esc(modal.origName)+'</div>';
-m+='<input class="inp" id="renameInp" placeholder="Nouveau nom..." value="'+esc(modal.curName)+'">';
-m+='<button class="bg" style="width:100%" onclick="var v=document.getElementById(\'renameInp\').value.trim();if(v)renameBoss(\''+modal.bid+'\',v)">Renommer</button>';
+m+='<button class="bg" style="width:100%" onclick="var n=document.getElementById(\'addBossName\').value.trim();var z=document.getElementById(\'addBossZone\').value.trim();if(!n){alert(\'Nom requis\');return;}var c=\'b\';[\'l\',\'b\',\'u\',\'i\'].forEach(function(k){if(document.getElementById(\'addT-\'+k).className.includes(\'on\'))c=k;});addCustomBoss(n,z||\'Autre\',c)">Ajouter</button>';
+m+='</div></div>';
+}else if(modal&&modal.t==="editBoss"){
+var eb=allBosses().find(function(x){return x.id===modal.bid;});
+if(!eb){modal='boss';renderModal();return;}
+var curName=bn(eb.id);
+m='<div class="ov" onclick="modal=\'boss\';renderModal()"><div class="mdl" onclick="event.stopPropagation()"><div class="mh"><span class="mt">Modifier le boss</span><button class="cb" onclick="modal=\'boss\';renderModal()">\u2715</button></div>';
+m+='<div style="margin-bottom:12px"><div style="font-size:11px;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Nom du boss</div><input class="inp" id="editBossName" value="'+esc(curName)+'"></div>';
+m+='<div style="margin-bottom:12px"><div style="font-size:11px;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Zone</div>'+buildZoneSelect('editBossZone',eb.z||'')+'</div>';
+m+='<div style="margin-bottom:12px"><div style="font-size:11px;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Type</div><div style="display:flex;gap:6px;flex-wrap:wrap">';
+["b","l","u","i"].forEach(function(k){
+var labels={l:"\uD83D\uDC51 L\u00E9gendaire",b:"\u2694\uFE0F Boss",u:"\uD83D\uDEE1\uFE0F Unique",i:"\uD83D\uDDE1\uFE0F Invasion"};
+m+='<button class="ctab'+(eb.c===k?' on':'')+'" id="editT-'+k+'" onclick="document.querySelectorAll(\'[id^=editT-]\').forEach(function(e){e.className=\'ctab\'});this.className=\'ctab on\'">'+labels[k]+'</button>';
+});
+m+='</div></div>';
+m+='<button class="bg" style="width:100%" onclick="var n=document.getElementById(\'editBossName\').value.trim();var z=document.getElementById(\'editBossZone\').value.trim();if(!n){alert(\'Nom requis\');return;}var c=\'b\';[\'l\',\'b\',\'u\',\'i\'].forEach(function(k){if(document.getElementById(\'editT-\'+k).className.includes(\'on\'))c=k;});editCustomBoss(\''+eb.id+'\',n,z||\'Autre\',c)">Enregistrer</button>';
+m+='</div></div>';
+}else if(modal&&modal.t==="bossDetail"){
+var dboss=gB(modal.bid);
+if(!dboss){modal=null;render();return;}
+var dname=bn(modal.bid);
+// Gather all deaths for this boss across all runs
+var allDeaths=S.deaths.filter(function(d){return d.bossId===modal.bid;});
+var allKills=S.kills.filter(function(k){return k.bossId===modal.bid;});
+// Current run data
+var curRun=gRun();
+var curDeaths=curRun?allDeaths.filter(function(d){return d.runId===curRun.id;}):[];
+var curKill=curRun?allKills.find(function(k){return k.runId===curRun.id;}):null;
+// Phase breakdown
+var p1=allDeaths.filter(function(d){return d.phase===1||(!d.phase&&(!dboss.ph||dboss.ph<2));}).length;
+var p2=allDeaths.filter(function(d){return d.phase===2;}).length;
+var p3=allDeaths.filter(function(d){return d.phase===3;}).length;
+var noPhase=allDeaths.filter(function(d){return !d.phase&&dboss.ph&&dboss.ph>=2;}).length;
+p1+=noPhase; // legacy deaths without phase go to P1
+
+m='<div class="ov" onclick="modal=null;render()"><div class="mdl" onclick="event.stopPropagation()"><div class="mh"><span class="mt">'+ci(dboss.c)+' D\u00E9tail du boss</span><button class="cb" onclick="modal=null;render()">\u2715</button></div>';
+// Boss header
+m+='<div style="text-align:center;margin-bottom:16px"><div style="font-family:var(--fd);color:var(--gold);font-size:17px;margin-bottom:4px">'+esc(dname)+'</div><div style="color:var(--td);font-size:12px">'+esc(dboss.z)+'</div></div>';
+// Current run kill info
+if(curKill){
+m+='<div class="kb" style="margin-bottom:14px"><div><div style="color:#6fd06f;font-size:12px;font-family:var(--fd)">'+(curKill.firstTry?'\u2728 FIRST TRY':'\u2705 BOSS BATTU')+'</div>';
+if(curKill.level)m+='<div style="color:var(--td);font-size:11px;margin-top:2px">Niveau '+curKill.level+'</div>';
+m+='</div><div style="font-family:var(--fd);color:'+(curKill.firstTry?'#6fd06f':'var(--bl)')+';font-size:18px">'+(curKill.deaths||0)+' \uD83D\uDC80</div></div>';
+}
+// Total deaths
+m+='<div class="sg" style="margin-bottom:14px"><div class="sc"><div class="scl">Morts totales</div><div class="scv" style="color:var(--bl)">'+allDeaths.length+'</div></div><div class="sc"><div class="scl">Run actuelle</div><div class="scv" style="color:var(--bl)">'+curDeaths.length+'</div></div></div>';
+// Phase breakdown (only if boss has phases)
+if(dboss.ph&&dboss.ph>=2&&allDeaths.length>0){
+var totalPh=p1+p2+p3;
+m+='<div class="stit" style="font-size:13px;margin-bottom:10px">Morts par phase</div>';
+m+='<div style="display:flex;gap:8px;margin-bottom:14px">';
+m+='<div class="sc" style="flex:1"><div class="scl">Phase 1</div><div class="scv" style="color:var(--bl);font-size:20px">'+p1+'</div><div style="font-size:10px;color:var(--td)">'+(totalPh>0?Math.round(p1/totalPh*100):0)+'%</div></div>';
+m+='<div class="sc" style="flex:1"><div class="scl">Phase 2</div><div class="scv" style="color:var(--gold);font-size:20px">'+p2+'</div><div style="font-size:10px;color:var(--td)">'+(totalPh>0?Math.round(p2/totalPh*100):0)+'%</div></div>';
+if(dboss.ph>=3||p3>0){
+m+='<div class="sc" style="flex:1"><div class="scl">Phase 3</div><div class="scv" style="color:#c06af0;font-size:20px">'+p3+'</div><div style="font-size:10px;color:var(--td)">'+(totalPh>0?Math.round(p3/totalPh*100):0)+'%</div></div>';
+}
+m+='</div>';
+// Phase bar
+m+='<div style="height:8px;border-radius:4px;overflow:hidden;display:flex;margin-bottom:14px">';
+if(totalPh>0){
+m+='<div style="width:'+Math.round(p1/totalPh*100)+'%;background:var(--bl);height:100%"></div>';
+m+='<div style="width:'+Math.round(p2/totalPh*100)+'%;background:var(--gold);height:100%"></div>';
+if(p3>0)m+='<div style="width:'+Math.round(p3/totalPh*100)+'%;background:#c06af0;height:100%"></div>';
+}
+m+='</div>';
+}
+// Per-run history
+if(allKills.length>0){
+m+='<div class="stit" style="font-size:13px;margin-bottom:8px">Historique par run</div>';
+allKills.forEach(function(k){
+var r=S.runs.find(function(r){return r.id===k.runId;});
+if(!r)return;
+var rd=allDeaths.filter(function(d){return d.runId===k.runId;}).length;
+m+='<div class="rr"><div style="flex:1;min-width:0"><span style="color:var(--txt);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(r.name)+'</span></div><div style="display:flex;align-items:center;gap:8px;flex-shrink:0">'+(k.level?'<span style="color:var(--td);font-size:10px">Niv.'+k.level+'</span>':'')+'<span style="font-family:var(--fd);color:'+(k.firstTry?'#6fd06f':'var(--bl)')+';font-size:13px">'+(rd===0?'\u2728':rd+'\uD83D\uDC80')+'</span></div></div>';
+});
+}
 m+='</div></div>';
 }else if(modal==="newrun"){
 const ps=["Run RL1","Run No Hit","Run All Boss","Run Speed","Run DLC","Casual Run"];
@@ -481,7 +581,7 @@ else S.runs.slice().reverse().forEach(function(r){const cur=r.id===S.currentRunI
 m+='</div></div>';
 }else if(modal==="kill"&&boss){
 const bd2=bD(S.currentRunId,boss.id).length;const ft=bd2===0;
-m='<div class="ov" onclick="modal=null;render()"><div class="mdl" onclick="event.stopPropagation()"><div class="mh"><span class="mt">Boss battu !</span><button class="cb" onclick="modal=null;render()">\u2715</button></div><div style="text-align:center;margin-bottom:16px">'+(ft?'<div style="font-size:32px;margin-bottom:8px">\u2728\uD83C\uDFC6\u2728</div>':'')+'<div style="font-family:var(--fd);color:var(--gold);font-size:15px;margin-bottom:4px">'+esc(boss.n)+'</div><div style="color:'+(ft?'var(--ok)':'var(--bl)')+';font-size:13px;font-family:var(--fd)">'+(ft?"FIRST TRY !":bd2+" mort"+(bd2>1?"s":"")+" avant la victoire")+'</div></div><div style="margin-bottom:12px"><div style="font-size:11px;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Niveau du personnage</div><input class="inp" id="kLvl" type="number" inputmode="numeric" placeholder="Ex: 75"></div><div style="margin-bottom:16px;position:relative"><div style="font-size:11px;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Arme utilis\u00E9e</div><input class="inp" id="kWpn" placeholder="Ex: \u00C9p\u00E9e lunaire de Caria" oninput="renderWpn(this.value)" onfocus="renderWpn(this.value)"><div id="wpdd"></div></div><button class="bg" style="width:100%" onclick="var l=document.getElementById(\'kLvl\').value;var w=document.getElementById(\'kWpn\').value.trim();confirmKill(l?parseInt(l):null,w||null)">'+(ft?'\u2728 Valider le First Try':'\u2694\uFE0F Valider la victoire')+'</button></div></div>';
+m='<div class="ov" onclick="modal=null;render()"><div class="mdl" onclick="event.stopPropagation()"><div class="mh"><span class="mt">Boss battu !</span><button class="cb" onclick="modal=null;render()">\u2715</button></div><div style="text-align:center;margin-bottom:16px">'+(ft?'<div style="font-size:32px;margin-bottom:8px">\u2728\uD83C\uDFC6\u2728</div>':'')+'<div style="font-family:var(--fd);color:var(--gold);font-size:15px;margin-bottom:4px">'+esc(boss.n)+'</div><div style="color:'+(ft?'var(--ok)':'var(--bl)')+';font-size:13px;font-family:var(--fd)">'+(ft?"FIRST TRY !":bd2+" mort"+(bd2>1?"s":"")+" avant la victoire")+'</div></div><div style="margin-bottom:16px"><div style="font-size:11px;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Niveau du personnage</div><input class="inp" id="kLvl" type="number" inputmode="numeric" placeholder="Ex: 75"></div><button class="bg" style="width:100%" onclick="var l=document.getElementById(\'kLvl\').value;confirmKill(l?parseInt(l):null)">'+(ft?'\u2728 Valider le First Try':'\u2694\uFE0F Valider la victoire')+'</button></div></div>';
 }else if(modal&&modal.t==="confirm"){
 m='<div class="ov" onclick="modal=null;render()"><div class="mdl" onclick="event.stopPropagation()"><div class="mh"><span class="mt">'+esc(modal.title)+'</span><button class="cb" onclick="modal=null;render()">\u2715</button></div><div style="text-align:center;padding:10px 0"><div style="color:var(--txt);margin-bottom:16px">'+esc(modal.msg)+(modal.hl?' <strong style="color:var(--gold)">'+esc(modal.hl)+'</strong>':'')+' ?</div><div style="display:flex;gap:10px;justify-content:center"><button class="bs" onclick="modal=null;render()">Annuler</button><button class="bg" style="background:var(--blood)" onclick="doConfirm()">Confirmer</button></div></div></div></div>';
 }else if(modal==="settings"){
@@ -489,18 +589,26 @@ m='<div class="ov" onclick="modal=null;render()"><div class="mdl" onclick="event
 m+='<button class="bli" style="margin-bottom:8px" onclick="modal=null;exportJSON()"><span style="font-size:16px;margin-right:8px">\uD83D\uDCE6</span> Exporter les donn\u00E9es (JSON)</button>';
 m+='<label class="bli" style="cursor:pointer;margin-bottom:8px"><span style="font-size:16px;margin-right:8px">\uD83D\uDCE5</span> Importer des donn\u00E9es (JSON)<input type="file" accept=".json" style="display:none" onchange="if(this.files[0]){importJSON(this.files[0]);modal=null;render();}"></label>';
 m+='<div style="border-top:1px solid var(--brd);margin-top:12px;padding-top:12px"><button class="bli" style="border-color:var(--blood);margin-bottom:4px" onclick="modal={t:\'confirm\',title:\'Tout supprimer ?\',msg:\'Supprimer toutes les runs et donn\u00E9es\',hl:\'\',act:\'resetAll\'};render()"><span style="font-size:16px;margin-right:8px">\uD83D\uDDD1\uFE0F</span><span style="color:var(--bl)">Supprimer toutes les donn\u00E9es</span></button></div>';
-m+='<div style="text-align:center;margin-top:16px;font-size:10px;color:var(--tm)">Elden Ring Death Tracker v8<br>'+B.length+' boss \u2022 IndexedDB</div>';
+m+='<div style="text-align:center;margin-top:16px;font-size:10px;color:var(--tm)">Elden Ring Death Tracker<br>'+B.length+' boss l\u00E9gendaires'+(S&&S.customBosses&&S.customBosses.length?' + '+S.customBosses.length+' personnalis\u00E9':'')+' \u2022 IndexedDB</div>';
 m+='</div></div>';
 }
 let div=document.getElementById("modal-root");
 if(m){if(!div){div=document.createElement("div");div.id="modal-root";app.appendChild(div);}div.innerHTML=m;
 const bsi=document.getElementById("bsi");if(bsi&&bSrch){bsi.setSelectionRange(bsi.value.length,bsi.value.length);}
+// Auto-scroll vers le boss actuellement sélectionné
+if(modal==='boss'&&S&&S.currentBossId){setTimeout(function(){var el=document.getElementById('bl-'+S.currentBossId);if(el)el.scrollIntoView({block:'center',behavior:'instant'});},50);}
 const nri=document.getElementById("nri");if(nri)nri.focus();
 }else if(div)div.remove();
 }
-function doConfirm(){if(!modal)return;if(modal.act==='resetRun')resetRun();else if(modal.act==='unKill')unKill();else if(modal.act==='delRun')delRun(modal.rid);else if(modal.act==='resetAll'){S=JSON.parse(JSON.stringify(DEF));modal=null;save();render();}}
-function renderWpn(v){const dd=document.getElementById("wpdd");if(!dd)return;if(!v){dd.innerHTML='';return;}const f=(S.weapons||[]).filter(function(w){return w.toLowerCase().includes(v.toLowerCase());});if(!f.length){dd.innerHTML='';return;}dd.innerHTML='<div class="wpdd">'+f.slice(0,5).map(function(w){return'<button onclick="document.getElementById(\'kWpn\').value=\''+esc(w).replace(/'/g,"\\'")+'\';document.getElementById(\'wpdd\').innerHTML=\'\'">'+esc(w)+'</button>';}).join('')+'</div>';}
-(async function(){const saved=await dbL();S=saved||JSON.parse(JSON.stringify(DEF));S.runs.forEach(function(r){if(r.timerElapsed===undefined){r.timerElapsed=0;r.timerRunning=false;r.timerLastStart=null;}});if(!S.customNames)S.customNames={};if(!S.customBosses)S.customBosses=[];render();})();
+function doConfirm(){if(!modal)return;if(modal.act==='resetRun')resetRun();else if(modal.act==='unKill')unKill();else if(modal.act==='delRun')delRun(modal.rid);else if(modal.act==='delCustomBoss')delCustomBoss(modal.bid);else if(modal.act==='resetAll'){S=JSON.parse(JSON.stringify(DEF));modal=null;save();render();}}
+(async function(){const saved=await dbL();S=saved||JSON.parse(JSON.stringify(DEF));S.runs.forEach(function(r){if(r.timerElapsed===undefined){r.timerElapsed=0;r.timerRunning=false;r.timerLastStart=null;}});if(!S.customNames)S.customNames={};if(!S.customBosses)S.customBosses=[];
+// Migration : les anciens boss customs avaient c:"m" (majeur) → maintenant c:"l" (légendaire)
+// On s'assure aussi qu'ils sont bien marqués custom:true
+S.customBosses.forEach(function(b){
+if(b.c==='m')b.c='l';
+if(b.custom===undefined)b.custom=true;
+});
+render();})();
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
 
 </script>
